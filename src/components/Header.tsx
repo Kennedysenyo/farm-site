@@ -38,7 +38,7 @@ export const Header = () => {
   ));
 
   return (
-    <header className="bg-muted/95 supports-[backdrop-filter]:bg-muted/60 text-muted-foreground border-border sticky top-0 right-0 left-0 z-50 flex items-center justify-between gap-2 border-b px-4 py-2 backdrop-blur">
+    <header className="bg-muted/95 supports-[backdrop-filter]:bg-muted/60 text-muted-foreground border-border sticky top-0 right-0 left-0 z-50 flex items-center justify-between gap-4 border-b px-4 py-2 backdrop-blur">
       <div className="container mx-auto flex w-full items-center justify-between">
         <Link href="/" className="">
           <Image
@@ -70,7 +70,7 @@ export const Header = () => {
           )}
         </div>
 
-        <nav className="hidden items-center justify-center md:flex">
+        <nav className="hidden items-center justify-center gap-3 md:flex">
           {navElements}
         </nav>
       </div>
