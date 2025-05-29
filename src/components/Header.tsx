@@ -38,7 +38,7 @@ export const Header = () => {
   ));
 
   return (
-    <header className="bg-muted/95 supports-[backdrop-filter]:bg-muted/60 text-muted-foreground border-border sticky top-0 right-0 left-0 z-50 flex items-center justify-between gap-4 border-b px-4 py-2 backdrop-blur">
+    <header className="bg-muted/95 supports-[backdrop-filter]:bg-muted/60 text-muted-foreground border-border sticky top-0 right-0 left-0 z-50 flex items-center justify-between gap-2 border-b px-4 py-2 backdrop-blur md:gap-4">
       <div className="container mx-auto flex w-full items-center justify-between">
         <Link href="/" className="">
           <Image
@@ -74,6 +74,7 @@ export const Header = () => {
           {navElements}
         </nav>
       </div>
+      <DarkModeToggle />
       {user ? (
         <Button
           variant="secondary"
@@ -82,16 +83,10 @@ export const Header = () => {
           <User />
         </Button>
       ) : (
-        <Button asChild>
-          <Link
-            href="/login"
-            className="bg-muted text-muted-foreground border-border rounded-md border"
-          >
-            Login
-          </Link>
+        <Button asChild size="sm" className="px-3 py-1">
+          <Link href="/login">Login</Link>
         </Button>
       )}
-      <DarkModeToggle />
     </header>
   );
 };

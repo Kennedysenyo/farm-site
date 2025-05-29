@@ -3,7 +3,7 @@ import Link from "next/link";
 export const Hero = () => {
   return (
     <section
-      className="relative flex min-h-screen items-center bg-cover bg-center text-white"
+      className="relative flex min-h-[700px] items-center bg-cover bg-center text-white"
       style={{ backgroundImage: "url('/img/hero.png')" }}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent"></div>
