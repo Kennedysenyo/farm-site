@@ -38,7 +38,7 @@ export const Header = () => {
   ));
 
   return (
-    <header className="bg-muted/95 supports-[backdrop-filter]:bg-muted/60 text-muted-foreground border-border sticky top-0 right-0 left-0 z-50 flex items-center justify-between gap-2 border-b px-4 py-2 backdrop-blur md:gap-4">
+    <header className="bg-muted/95 supports-[backdrop-filter]:bg-muted/60 text-muted-foreground border-border sticky top-0 right-0 left-0 z-5000 flex items-center justify-between gap-2 border-b px-4 py-2 backdrop-blur md:gap-4">
       <div className="container mx-auto flex w-full items-center justify-between">
         <Link href="/" className="">
           <Image
@@ -52,8 +52,8 @@ export const Header = () => {
 
         <div className="md:hidden">
           <Button
-            variant="secondary"
-            className="bg-muted text-muted-foreground"
+            variant="ghost"
+            className="bg-transparent"
             onClick={() => setIsMenuOpen((prev) => !prev)}
           >
             {isMenuOpen ? (

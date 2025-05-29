@@ -11,8 +11,8 @@ export const DarkModeToggle = () => {
 
   return (
     <Button
-      variant="secondary"
-      className="bg-mute"
+      variant="ghost"
+      className="bg-transparent"
       size="icon"
       onClick={() =>
         setTheme((prevMode) => (prevMode === "light" ? "dark" : "light"))

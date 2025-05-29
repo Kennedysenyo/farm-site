@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-("");
+import { Button } from "./ui/button";
 
 export const About = () => {
   return (
@@ -14,8 +13,8 @@ export const About = () => {
           <Image
             src="/img/cocoa-nursery.jpg"
             alt="cocoa-nursery"
-            width={500}
-            height={600}
+            width={600}
+            height={500}
             className="rounded-2xl shadow-lg"
           />
         </div>
@@ -30,12 +29,9 @@ export const About = () => {
         </div>
       </div>
       <div className="flex w-full items-center justify-center">
-        <Link
-          href="/about"
-          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-6 py-3 text-sm font-semibold transition-colors duration-300"
-        >
-          Learn More
-        </Link>
+        <Button asChild>
+          <Link href="/about">Learn More</Link>
+        </Button>
       </div>
     </section>
   );

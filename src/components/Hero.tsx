@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 export const Hero = () => {
   return (
@@ -16,19 +17,16 @@ export const Hero = () => {
           Quality Seedlings, expert consultancy, and farmland solutions.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <Link
-            href="/products"
-            className="bg-primary hover:bg-primary/90 animate-fade-in duration-all rounded-lg px-6 py-3 font-semibold text-white transition-colors"
+          <Button asChild size="lg">
+            <Link href="/products">Order Now</Link>
+          </Button>
+          <Button
+            size="lg"
+            asChild
+            className="hover:text-primary border border-white bg-transparent text-white hover:bg-white"
           >
-            {" "}
-            Order Now
-          </Link>
-          <Link
-            href="#contacts"
-            className="bg-opacity-20 hover:text-primary duration-all animate-fade-in rounded-lg border-2 border-white px-6 py-3 font-semibold transition-colors hover:bg-white"
-          >
-            Get Consultation
-          </Link>
+            <Link href="#contacts">Get Consultation</Link>
+          </Button>
         </div>
       </div>
     </section>
