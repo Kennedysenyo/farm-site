@@ -68,7 +68,7 @@ export default function AboutPage() {
               priority
               className="w-full rounded-md object-cover"
             />
-            <div className="absolute inset-0 z-10 rounded-md bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+            <div className="absolute inset-0 z-10 rounded-md bg-gradient-to-t from-black via-black/25 to-transparent"></div>
 
             <div className="absolute inset-0 z-20 flex w-full flex-col items-center justify-center gap-2 rounded-md px-4 py-6 sm:py-8 md:gap-4 md:px-6">
               <h1 className="text-center text-2xl font-bold text-white drop-shadow-lg sm:text-3xl md:text-5xl">

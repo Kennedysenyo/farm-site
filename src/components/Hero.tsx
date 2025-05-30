@@ -18,14 +18,14 @@ export const Hero = () => {
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Button asChild size="lg">
-            <Link href="/products">Order Now</Link>
+            <Link href="/lands-on-sale">Acquire Farmland</Link>
           </Button>
           <Button
             size="lg"
             asChild
             className="hover:text-primary border border-white bg-transparent text-white hover:bg-white"
           >
-            <Link href="#contacts">Get Consultation</Link>
+            <Link href="/products">Order Seedlings</Link>
           </Button>
         </div>
       </div>

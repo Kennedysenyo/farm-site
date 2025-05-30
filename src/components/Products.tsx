@@ -43,7 +43,7 @@ export const ProductsSection = () => {
         </div>
 
         <Button asChild className="mt-6">
-          <Link href="/products">Browse Supplies</Link>
+          <Link href="/products">View All Supplies</Link>
         </Button>
       </div>
     </section>
