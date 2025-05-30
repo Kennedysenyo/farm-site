@@ -165,33 +165,116 @@ export default function AboutPage() {
             {ourQualities}
           </div>
           <Button className="mt-8" asChild>
-            <Link href="/products">Buy From Us</Link>
+            <Link href="/products">Order Now</Link>
           </Button>
         </div>
       </section>
 
       <section className="text-foreground w-full px-4 py-16 md:px-10">
-        <div className="container mx-auto flex flex-col items-center gap-8 md:flex-row md:gap-10">
-          <div className="space-y-6 md:w-1/2">
-            <h2 className="text-center text-3xl font-bold sm:text-4xl md:text-left md:text-5xl">
-              Meet the Team Behind the Vision
-            </h2>
-            <p className="text-sm leading-relaxed sm:text-base md:text-lg">
-              Our team is a passionate blend of experienced farmers,
-              agronomists, and consultants dedicated to helping you grow. With
-              years of hands-on knowledge and a deep understanding of
-              sustainable agriculture, we’re here to guide, support, and grow
-              with you—every step of the way.
-            </p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="container mx-auto flex flex-col items-center gap-8 md:flex-row md:gap-10">
+            <div className="space-y-6 md:w-1/2">
+              <h2 className="text-center text-3xl font-bold sm:text-4xl md:text-left md:text-5xl">
+                Meet the Team Behind the Vision
+              </h2>
+              <p className="text-sm leading-relaxed sm:text-base md:text-lg">
+                Our team is a passionate blend of experienced farmers,
+                agronomists, and consultants dedicated to helping you grow. With
+                years of hands-on knowledge and a deep understanding of
+                sustainable agriculture, we’re here to guide, support, and grow
+                with you—every step of the way.
+              </p>
+            </div>
+            <div className="flex justify-center md:w-1/2">
+              <Image
+                src="/img/team.jpg"
+                alt="Our team"
+                width={500}
+                height={400}
+                className="rounded-md object-cover shadow-md"
+              />
+            </div>
           </div>
-          <div className="flex justify-center md:w-1/2">
-            <Image
-              src="/img/team.jpg"
-              alt="Our team"
-              width={500}
-              height={400}
-              className="rounded-md object-cover shadow-md"
-            />
+          <Button className="mt-8" asChild>
+            <Link href="/contats">Partner With Us</Link>
+          </Button>
+        </div>
+      </section>
+
+      <section className="bg-muted w-full px-4 py-16 md:px-10">
+        <div className="bg-background text-foreground container mx-auto space-y-10 text-center">
+          <div className="flex flex-col items-center gap-6 rounded-2xl p-4">
+            <h2 className="w-full text-3xl font-bold sm:text-4xl md:text-5xl">
+              Our Impact
+            </h2>
+            <p className="max-w-3xl text-sm leading-relaxed sm:text-base md:text-lg">
+              Over the years, our work has positively impacted countless
+              farmers, families, and communities across the country. From
+              helping smallholder farmers gain access to quality seedlings, to
+              transforming underutilized lands into thriving farms, we are proud
+              of the tangible progress we've helped bring to life.
+              <br />
+              <br />
+              We believe in farming with purpose — and that purpose is visible
+              in every harvest, every livelihood improved, and every partnership
+              built along the way.
+            </p>
+
+            <div className="grid w-full max-w-4xl grid-cols-2 gap-6 pt-4 sm:grid-cols-2 md:grid-cols-4">
+              <div>
+                <p className="text-primary text-4xl font-bold">500+</p>
+                <p className="text-muted-foreground text-sm">Farms Supported</p>
+              </div>
+              <div>
+                <p className="text-primary text-4xl font-bold">100K+</p>
+                <p className="text-muted-foreground text-sm">
+                  Seedlings Distributed
+                </p>
+              </div>
+              <div>
+                <p className="text-primary text-4xl font-bold">100+</p>
+                <p className="text-muted-foreground text-sm">
+                  Land Deals Secured
+                </p>
+              </div>
+              <div>
+                <p className="text-primary text-4xl font-bold">100%</p>
+                <p className="text-muted-foreground text-sm">
+                  Satisfaction Rate
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-6">
+              <Button asChild>
+                <Link href="/contacts">Join the Movement</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-primary text-primary-foreground w-full px-4 py-16 md:px-10">
+        <div className="container mx-auto flex max-w-4xl flex-col items-center space-y-6 text-center">
+          <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl">
+            Rooted in Purpose. Growing with You.
+          </h2>
+          <p className="text-base sm:text-lg md:text-xl">
+            At the heart of our journey is a commitment to empower farmers,
+            protect the land, and feed the future. Whether you're just starting
+            out or scaling your operations, we're here to walk with you — every
+            step of the way.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 pt-4">
+            <Button asChild variant="secondary">
+              <Link href="/services">Explore Our Services</Link>
+            </Button>
+            <Button
+              asChild
+              className="hover:text-primary border border-white bg-transparent text-white hover:bg-white"
+            >
+              <Link href="/contacts">Contact Us</Link>
+            </Button>
           </div>
         </div>
       </section>
