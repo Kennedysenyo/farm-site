@@ -165,8 +165,34 @@ export default function AboutPage() {
             {ourQualities}
           </div>
           <Button className="mt-8" asChild>
-            <Link href="/contact">Partner with Us</Link>
+            <Link href="/products">Buy From Us</Link>
           </Button>
+        </div>
+      </section>
+
+      <section className="text-foreground w-full px-4 py-16 md:px-10">
+        <div className="container mx-auto flex flex-col items-center gap-8 md:flex-row md:gap-10">
+          <div className="space-y-6 md:w-1/2">
+            <h2 className="text-center text-3xl font-bold sm:text-4xl md:text-left md:text-5xl">
+              Meet the Team Behind the Vision
+            </h2>
+            <p className="text-sm leading-relaxed sm:text-base md:text-lg">
+              Our team is a passionate blend of experienced farmers,
+              agronomists, and consultants dedicated to helping you grow. With
+              years of hands-on knowledge and a deep understanding of
+              sustainable agriculture, we’re here to guide, support, and grow
+              with you—every step of the way.
+            </p>
+          </div>
+          <div className="flex justify-center md:w-1/2">
+            <Image
+              src="/img/team.jpg"
+              alt="Our team"
+              width={500}
+              height={400}
+              className="rounded-md object-cover shadow-md"
+            />
+          </div>
         </div>
       </section>
     </>
