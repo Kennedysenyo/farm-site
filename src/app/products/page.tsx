@@ -154,9 +154,13 @@ export default function ProductsPage() {
           <p className="text-destructive text-center text-4xl font-bold md:text-6xl">
             {error}
           </p>
-        ) : (
+        ) : previewProducts.length !== 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {previewProducts}
+          </div>
+        ) : (
+          <div className="flex h-20 w-full items-center justify-center">
+            <p className="text-muted-foreground">No products found</p>
           </div>
         )}
       </section>
