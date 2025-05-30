@@ -202,7 +202,7 @@ export default function AboutPage() {
       </section>
 
       <section className="bg-muted w-full px-4 py-16 md:px-10">
-        <div className="bg-background text-foreground container mx-auto space-y-10 text-center">
+        <div className="bg-background text-foreground border-border container mx-auto space-y-10 rounded-md border text-center shadow-md">
           <div className="flex flex-col items-center gap-6 rounded-2xl p-4">
             <h2 className="w-full text-3xl font-bold sm:text-4xl md:text-5xl">
               Our Impact
