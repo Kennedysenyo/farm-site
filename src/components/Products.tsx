@@ -1,10 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { products } from "@/lib/data";
 
 export const ProductsSection = () => {
-  const productPreview = products.slice(0, 4).map((product) => (
+  const productPreview = products.map((product) => (
     <Link key={product.id} href={`/order?id=${product.id}`}>
       <div className="border-border hover:bg-background group flex flex-col overflow-hidden rounded-lg border p-4 shadow-sm transition hover:shadow-md">
         <Image
