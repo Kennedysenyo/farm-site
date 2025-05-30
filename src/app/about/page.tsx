@@ -7,38 +7,39 @@ import {
   MapPin,
   Tractor,
   LucideIcon,
+  Brain,
+  Leaf,
+  Handshake,
+  Clock,
 } from "lucide-react";
+import { QUALITIES, SERVICES } from "./data";
 
 const iconMap: Record<string, LucideIcon> = {
   sprout: Sprout,
   bookOpenCheck: BookOpenCheck,
   mapPin: MapPin,
   tractor: Tractor,
+  brain: Brain,
+  leaf: Leaf,
+  handsShake: Handshake,
+  clock: Clock,
 };
 
-const SERVICES = [
-  {
-    title: "Seedling Supply",
-    desc: "High-quality seedlings nurtured for mango, coconut, pawpaw, and more.",
-    icon: "sprout",
-  },
-  {
-    title: "Farming Consultancy",
-    desc: "Expert advice and strategies for small- and large-scale farmers.",
-    icon: "bookOpenCheck",
-  },
-  {
-    title: "Farmland Acquisition",
-    desc: "Helping you secure productive farmland across various regions.",
-    icon: "mapPin",
-  },
-  {
-    title: "Farm Setup & Management",
-    desc: "From setup to harvest, we guide you in building a successful farm.",
-    icon: "tractor",
-  },
-];
 export default function AboutPage() {
+  const ourQualities = QUALITIES.map((quality, index) => {
+    const Icon = iconMap[quality.icon];
+    return (
+      <div
+        key={index}
+        className="border-border bg-background mx-auto flex max-w-xs flex-col items-center gap-4 rounded-md border p-6 shadow-sm transition hover:shadow-md"
+      >
+        <Icon className="text-primary h-10 w-10 rounded-full" />
+        <h3 className="text-lg font-semibold">{quality.title}</h3>
+        <p className="text-muted-foreground text-sm">{quality.desc}</p>
+      </div>
+    );
+  });
+
   const ourServices = SERVICES.map((service, index) => {
     const Icon = iconMap[service.icon];
 
@@ -80,7 +81,7 @@ export default function AboutPage() {
               </p>
               <div className="md grid grid-cols-2 gap-2 md:grid-cols-2 md:gap-4">
                 <Button size="sm" asChild>
-                  <Link href="/#contacts">Get In Touch</Link>
+                  <Link href="/contacts">Get In Touch</Link>
                 </Button>
                 <Button
                   size="sm"
@@ -143,11 +144,29 @@ export default function AboutPage() {
             {ourServices}
           </div>
 
-          <div>
-            <Button asChild>
-              <Link href="/services">See All Services</Link>
-            </Button>
+          <Button asChild>
+            <Link href="/services">See All Services</Link>
+          </Button>
+        </div>
+      </section>
+
+      <section className="bg-muted text-muted-foreground w-full px-4 py-16 md:px-10">
+        <div className="container mx-auto space-y-10 text-center">
+          <div className="space-y-4">
+            <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl">
+              Why Choose Us
+            </h2>
+            <p className="mx-auto max-w-2xl text-base md:text-lg">
+              We’re more than just a farm — we’re your partner in growth. Here’s
+              why farmers and landowners across the country trust us.
+            </p>
           </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {ourQualities}
+          </div>
+          <Button className="mt-8" asChild>
+            <Link href="/contact">Partner with Us</Link>
+          </Button>
         </div>
       </section>
     </>

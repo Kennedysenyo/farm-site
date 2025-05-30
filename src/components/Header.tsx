@@ -64,7 +64,7 @@ export const Header = () => {
           </Button>
 
           {isMenuOpen && (
-            <nav className="bg-muted text-foreground absolute top-16 right-0 left-0 z-50 flex flex-col gap-2 p-4 shadow-md transition-all duration-300">
+            <nav className="bg-muted text-foreground absolute top-15 right-0 left-0 z-50 flex flex-col gap-2 p-4 shadow-md transition-all duration-300">
               {navElements}
             </nav>
           )}
