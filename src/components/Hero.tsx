@@ -18,7 +18,7 @@ export const Hero = () => {
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Button asChild size="lg">
-            <Link href="/lands-on-sale">Acquire Farmland</Link>
+            <Link href="/farm-lands">Acquire Farmland</Link>
           </Button>
           <Button
             size="lg"

@@ -14,6 +14,7 @@ import { DarkModeToggle } from "./DarkModeToggle";
 export const navItems = [
   { name: "Home", href: "/" },
   { name: "Products", href: "/products", badge: "New" },
+  { name: "Lands", href: "/farm-lands", badge: "🔥" },
   { name: "Services", href: "/services" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contacts" },
@@ -54,7 +55,6 @@ export const Header = () => {
       <Link
         key={index}
         href={item.href}
-        scroll={item.href.startsWith("/#")}
         onClick={(e) => {
           e.stopPropagation();
           setIsMenuOpen(false);
@@ -74,7 +74,7 @@ export const Header = () => {
           {item.badge && (
             <Badge
               variant="secondary"
-              className="bg-primary/20 text-primary px-2 py-0.5 text-xs"
+              className={`${item.badge === "Hot" ? "bg-destructive/20 text-destructive" : "bg-primary/20 text-primary"} px-2 py-0.5 text-xs`}
             >
               {item.badge}
             </Badge>

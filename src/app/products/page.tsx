@@ -19,6 +19,7 @@ import {
   List,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useMobile } from "@/hooks/useMobile";
 
 // Mock ProductsType - replace with your actual type
 type ProductsType = {
@@ -62,58 +63,22 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const isMobile = useMobile();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        // Mock data for demonstration - replace with your actual API call
-        const mockProducts: ProductsType[] = [
-          {
-            id: "1",
-            name: "Premium Cocoa Seedlings",
-            description:
-              "High-quality, disease-resistant cocoa seedlings perfect for tropical farming. Guaranteed 95% survival rate.",
-            price: 25,
-            category: "seedlings",
-            rating: 4.8,
-            inStock: true,
+        const response = await fetch("/api/products", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            id: "2",
-            name: "Organic Fertilizer Mix",
-            description:
-              "Nutrient-rich organic fertilizer blend designed for optimal plant growth and soil health.",
-            price: 45,
-            category: "fertilizers",
-            rating: 4.6,
-            inStock: true,
-          },
-          {
-            id: "3",
-            name: "Bio-Safe Pesticide",
-            description:
-              "Environmentally friendly pesticide solution that protects crops without harming beneficial insects.",
-            price: 35,
-            category: "pesticides",
-            rating: 4.7,
-            inStock: false,
-          },
-          {
-            id: "4",
-            name: "Professional Pruning Shears",
-            description:
-              "Durable, ergonomic pruning shears designed for professional farmers and gardeners.",
-            price: 65,
-            category: "tools",
-            rating: 4.9,
-            inStock: true,
-          },
-        ];
+        });
 
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const mockProducts = await response.json();
+        if (!mockProducts) throw new Error("Failed fetching data");
         setProducts(mockProducts);
       } catch (error) {
         if (error instanceof Error) {
@@ -177,17 +142,17 @@ export default function ProductsPage() {
               Out of Stock
             </Badge>
           )}
-          {product.rating && product.rating >= 4.5 && (
+          {/* {product.rating && product.rating >= 4.5 && (
             <Badge className="bg-yellow-500 text-xs text-white">
               ⭐ Bestseller
             </Badge>
-          )}
+          )} */}
         </div>
-        <div className="absolute top-3 right-3">
+        {/* <div className="absolute top-3 right-3">
           <div className="rounded-full bg-white/90 p-2 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
             <ShoppingCart className="text-primary h-4 w-4" />
           </div>
-        </div>
+        </div> */}
       </div>
 
       <CardContent className="p-6">
@@ -201,7 +166,7 @@ export default function ProductsPage() {
             </p>
           </div>
 
-          {product.rating && (
+          {/* {product.rating && (
             <div className="flex items-center gap-1">
               <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
               <span className="text-sm font-medium">{product.rating}</span>
@@ -209,7 +174,7 @@ export default function ProductsPage() {
                 (24 reviews)
               </span>
             </div>
-          )}
+          )} */}
 
           <div className="flex items-center justify-between pt-2">
             <div>
@@ -352,24 +317,26 @@ export default function ProductsPage() {
               </div>
 
               {/* View Toggle */}
-              <div className="flex items-center gap-2 rounded-lg border p-1">
-                <Button
-                  variant={viewMode === "grid" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setViewMode("grid")}
-                  className="h-8 w-8 p-0"
-                >
-                  <Grid3X3 className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === "list" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setViewMode("list")}
-                  className="h-8 w-8 p-0"
-                >
-                  <List className="h-4 w-4" />
-                </Button>
-              </div>
+              {!isMobile && (
+                <div className="flex items-center gap-2 rounded-lg border p-1">
+                  <Button
+                    variant={viewMode === "grid" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setViewMode("grid")}
+                    className="h-8 w-8 p-0"
+                  >
+                    <Grid3X3 className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant={viewMode === "list" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setViewMode("list")}
+                    className="h-8 w-8 p-0"
+                  >
+                    <List className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
 
