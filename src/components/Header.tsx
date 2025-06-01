@@ -26,7 +26,7 @@ export const Header = () => {
   const pathname = usePathname();
   const isMobile = useMobile();
 
-  const user = 1;
+  const user = null;
 
   // Handle scroll effect
   useEffect(() => {

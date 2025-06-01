@@ -7,7 +7,7 @@ import { products } from "@/lib/data";
 
 export const ProductsSection = () => {
   const productPreview = products.map((product) => (
-    <Link key={product.id} href={`/order?id=${product.id}`}>
+    <Link key={product.id} href={`/products`}>
       <div className="border-border hover:bg-background group flex flex-col overflow-hidden rounded-lg border p-4 shadow-sm transition hover:shadow-md">
         <Image
           src={product.image}
