@@ -8,6 +8,7 @@ type FormErrorsType = {
   customerPhone?: string;
   deliveryAddress?: string;
   paymentMethod?: string;
+  momoNumber?: string;
   product?: string;
   quantity?: string;
   priceTotal?: string;
@@ -28,6 +29,7 @@ export const validateOrderForm = async (
   const customerPhone = (formData.get("customerPhone") as string).trim();
   const deliveryAddress = (formData.get("deliveryAddress") as string).trim();
   const paymentMethod = (formData.get("paymentMethod") as string).trim();
+  const momoNumber = (formData.get("momo-number") as string).trim();
   const product = (formData.get("product") as string).trim();
   const quantity = formData.get("quantity") as string;
   const shipping = formData.get("shipping") as string;
@@ -35,11 +37,12 @@ export const validateOrderForm = async (
 
   const errors: FormErrorsType = {};
 
-  if (!customerName) errors.customerName = "Customer name is reqired";
-  if (!customerEmail) errors.customerEmail = "Customer email is reqired";
-  if (!customerPhone) errors.customerPhone = "Customer phone is reqired";
-  if (!deliveryAddress) errors.deliveryAddress = "Delivery Address is required";
-  if (!paymentMethod) errors.paymentMethod = "Payment method is required";
+  if (!customerName) errors.customerName = "Customer name reqired";
+  if (!customerEmail) errors.customerEmail = "Customer email reqired";
+  if (!customerPhone) errors.customerPhone = "Customer phone reqired";
+  if (!deliveryAddress) errors.deliveryAddress = "Delivery Address required";
+  if (!paymentMethod) errors.paymentMethod = "Payment method required";
+  if (!momoNumber) errors.momoNumber = "Momo number required";
 
   if (Object.keys(errors).length > 0)
     return { errors, success: false, errorMessage: null };
@@ -54,6 +57,8 @@ export const validateOrderForm = async (
     "/n",
     paymentMethod,
     "/n",
+    momoNumber,
+    "/n",
     product,
     "/n",
     quantity,
@@ -62,6 +67,8 @@ export const validateOrderForm = async (
     "/n",
     priceTotal,
   );
+
+  // Call paystack with momo number
 
   return { errors: {}, success: true, errorMessage: null };
 };

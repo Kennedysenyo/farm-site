@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { ProductsType } from "@/db/schema";
 import { OrderFormState, validateOrderForm } from "@/actions/orderValidation";
+import Image from "next/image";
 
 type PaymentType = "stripe" | "paystack";
 
@@ -175,7 +176,7 @@ export const OrderForm = ({ product }: { product: ProductsType }) => {
                       id="customerPhone"
                       name="customerPhone"
                       type="tel"
-                      placeholder="eg. 233 123456789"
+                      placeholder="eg. 233 (0) 123456789"
                       value={orderDetails.customerPhone}
                       onChange={handleInputChange}
                       className="pl-10"
@@ -243,8 +244,8 @@ export const OrderForm = ({ product }: { product: ProductsType }) => {
                     className="border-muted bg-popover hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary flex cursor-pointer items-center justify-between rounded-lg border-2 p-4"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="rounded-full bg-yellow-100 p-2">
-                        <Smartphone className="h-4 w-4 text-yellow-600" />
+                      <div className="rounded-full bg-blue-100 p-2">
+                        <Smartphone className="h-4 w-4 text-blue-600" />
                       </div>
                       <div>
                         <div className="font-medium">Mobile Money</div>
@@ -285,13 +286,26 @@ export const OrderForm = ({ product }: { product: ProductsType }) => {
               <div className="mt-6">
                 {orderDetails.paymentMethod === "momo" ? (
                   <div className="border-muted-foreground/25 rounded-lg border border-dashed p-6 text-center">
-                    <Smartphone className="text-muted-foreground mx-auto mb-2 h-8 w-8" />
-                    <p className="text-muted-foreground text-sm">
-                      Stripe payment form will be loaded here
-                    </p>
-                    <p className="text-muted-foreground mt-1 text-xs">
-                      Secure payment processing with SSL encryption
-                    </p>
+                    <div className="space-y-2">
+                      <Label htmlFor="momo-number">Mobile Money Number</Label>
+                      <div className="relative">
+                        <Smartphone className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                        <Input
+                          id="momo-number"
+                          name="momo-number"
+                          type="tel"
+                          placeholder="eg. 021xxxxxxx"
+                          value={orderDetails.customerPhone}
+                          onChange={handleInputChange}
+                          className="pl-10"
+                        />
+                        {state.errors.customerPhone && (
+                          <p className="text-destructive text-xs">
+                            {state.errors.customerPhone}
+                          </p>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div className="border-muted-foreground/25 rounded-lg border border-dashed p-6 text-center">
@@ -321,9 +335,15 @@ export const OrderForm = ({ product }: { product: ProductsType }) => {
             <CardContent className="space-y-4">
               {/* Product Details */}
               <div className="flex gap-4">
-                <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-green-100">
-                  <Package className="h-8 w-8 text-green-600" />
+                <div className="relative h-16 w-16 overflow-hidden rounded-lg bg-green-100">
+                  <Image
+                    src="/img/products/mango-seedling.jpg"
+                    alt={product.name}
+                    fill
+                    className="rounded-lg object-cover"
+                  />
                 </div>
+
                 <div className="flex-1">
                   <h4 className="font-medium">{product.name}</h4>
                   <Input type="hidden" name="product" value={product.name} />
