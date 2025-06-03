@@ -1,8 +1,8 @@
 import { db } from "@/db";
 import { products } from "@/db/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const GET = async (_req: NextRequest) => {
+export const GET = async () => {
   try {
     const productsData = await db.select().from(products);
 

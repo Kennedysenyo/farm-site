@@ -3,7 +3,7 @@ import { BlogSection } from "@/components/BlogSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Hero } from "@/components/Hero";
 import { NewsletterSection } from "@/components/NewsLetterSection";
-import { OurAdvantage } from "@/components/OurAdvantage";
+
 import { ProcessSection } from "@/components/ProcessSection";
 import { ProductsSection } from "@/components/Products";
 import { ServicesSection } from "@/components/Services";

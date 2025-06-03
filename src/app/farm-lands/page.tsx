@@ -145,16 +145,17 @@ const mockFarmlands: Farmland[] = [
 ];
 
 export default function FarmlandsPage() {
-  const [farmlands, setFarmlands] = useState<Farmland[]>(mockFarmlands);
+  const [farmlands, setFarmlands] = useState<Farmland[]>([]);
   const [filteredFarmlands, setFilteredFarmlands] =
     useState<Farmland[]>(mockFarmlands);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState<string>("all");
   const [priceRange, setPriceRange] = useState<string>("all");
   const [sizeRange, setSizeRange] = useState<string>("all");
-  const [showFilters, setShowFilters] = useState(false);
+  // const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
+    setFarmlands(mockFarmlands);
     let filtered = farmlands;
 
     // Search filter

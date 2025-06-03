@@ -2,8 +2,6 @@
 
 import { momoPay } from "@/lib/paystack";
 
-type PaymentMethodType = "momo" | "card";
-
 type FormErrorsType = {
   customerName?: string;
   customerEmail?: string;
@@ -80,6 +78,7 @@ export const validateOrderForm = async (
     Number(momoNumber),
     provider,
   );
+  console.log(referenceNumber);
 
   return { errors: {}, success: true, errorMessage: null };
 };

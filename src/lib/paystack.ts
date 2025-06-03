@@ -33,6 +33,7 @@ export const momoPay = async (
       console.error(error);
       return error.message;
     }
+    console.error(error);
     return error;
   }
 };
