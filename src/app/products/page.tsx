@@ -264,7 +264,7 @@ export default function ProductsPage() {
   return (
     <div className="from-background to-muted/30 min-h-screen bg-gradient-to-b">
       {/* Hero Section */}
-      <section className="px-4 py-16 md:px-10">
+      <section className="from-primary/10 to-primary/5 bg-gradient-to-r px-4 py-16 md:px-10">
         <div className="container mx-auto">
           <div className="mb-12 space-y-6 text-center">
             <Badge variant="outline" className="mb-4">
@@ -341,35 +341,34 @@ export default function ProductsPage() {
           </div>
 
           {/* Results Summary */}
-          {!loading && (
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-muted-foreground">
-                {displayProducts.length} product
-                {displayProducts.length !== 1 ? "s" : ""} found
-                {selectedCategory &&
-                  ` in ${categories.find((c) => c.value === selectedCategory)?.name}`}
-                {query && ` for "${query}"`}
-              </p>
-
-              {(selectedCategory || query) && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setSelectedCategory("");
-                    setQuery("");
-                  }}
-                >
-                  Clear filters
-                </Button>
-              )}
-            </div>
-          )}
         </div>
       </section>
-
       {/* Products Section */}
-      <section className="px-4 pb-20 md:px-10">
+      <section className="px-4 py-12 pb-20 md:px-10">
+        {!loading && (
+          <div className="mb-6 flex items-center justify-between">
+            <p className="text-muted-foreground">
+              {displayProducts.length} product
+              {displayProducts.length !== 1 ? "s" : ""} found
+              {selectedCategory &&
+                ` in ${categories.find((c) => c.value === selectedCategory)?.name}`}
+              {query && ` for "${query}"`}
+            </p>
+
+            {(selectedCategory || query) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setSelectedCategory("");
+                  setQuery("");
+                }}
+              >
+                Clear filters
+              </Button>
+            )}
+          </div>
+        )}
         <div className="container mx-auto">
           {loading ? (
             <div className="flex h-64 flex-col items-center justify-center space-y-4">

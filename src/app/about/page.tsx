@@ -18,7 +18,6 @@ import {
   Target,
 } from "lucide-react";
 
-// Mock data - replace with your actual data imports
 const QUALITIES = [
   {
     icon: "brain",
@@ -370,7 +369,7 @@ export default function AboutPage() {
                 </div>
                 <div className="text-center">
                   <div className="text-primary mb-2 text-5xl font-bold">
-                    100%
+                    95%
                   </div>
                   <div className="text-muted-foreground font-medium">
                     Satisfaction Rate
@@ -419,9 +418,8 @@ export default function AboutPage() {
               </Button>
               <Button
                 size="lg"
-                variant="outline"
                 asChild
-                className="hover:text-primary border-white text-white hover:bg-white"
+                className="hover:text-primary border border-white bg-transparent px-8 py-5 text-lg text-white hover:bg-white"
               >
                 <Link href="/contacts">Contact Us</Link>
               </Button>

@@ -14,7 +14,7 @@ import { DarkModeToggle } from "./DarkModeToggle";
 export const navItems = [
   { name: "Home", href: "/" },
   { name: "Products", href: "/products", badge: "New" },
-  { name: "Lands", href: "/farm-lands", badge: "🔥" },
+  { name: "FarmLands", href: "/farm-lands", badge: "🔥" },
   { name: "Services", href: "/services" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contacts" },
@@ -118,7 +118,7 @@ export const Header = () => {
                   className="relative rounded-full transition-transform duration-200 group-hover:scale-105"
                 />
               </div>
-              <span className="from-primary to-primary/70 hidden bg-gradient-to-r bg-clip-text text-xl font-bold text-transparent sm:block">
+              <span className="from-primary to-primary/70 mr-2 hidden bg-gradient-to-r bg-clip-text text-xl font-bold text-transparent sm:block">
                 StartAgri
               </span>
             </Link>
