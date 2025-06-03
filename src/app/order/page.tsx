@@ -12,7 +12,6 @@ export default async function OrderPage({
   const query = (await searchParams)?.product;
   const productId = Array.isArray(query) ? query[0] : query;
   if (!productId) notFound();
-  console.log("This is the product id passed ", productId); // Delete Later
 
   const product: ProductsType[] = await db
     .select()

@@ -1,5 +1,7 @@
 "use server";
 
+import { momoPay } from "@/lib/paystack";
+
 type PaymentMethodType = "momo" | "card";
 
 type FormErrorsType = {
@@ -30,6 +32,7 @@ export const validateOrderForm = async (
   const deliveryAddress = (formData.get("deliveryAddress") as string).trim();
   const paymentMethod = (formData.get("paymentMethod") as string).trim();
   const momoNumber = (formData.get("momo-number") as string).trim();
+  const provider = (formData.get("provider") as string).trim();
   const product = (formData.get("product") as string).trim();
   const quantity = formData.get("quantity") as string;
   const shipping = formData.get("shipping") as string;
@@ -57,6 +60,8 @@ export const validateOrderForm = async (
     "/n",
     paymentMethod,
     "/n",
+    provider,
+    "/n",
     momoNumber,
     "/n",
     product,
@@ -69,6 +74,12 @@ export const validateOrderForm = async (
   );
 
   // Call paystack with momo number
+  const referenceNumber = await momoPay(
+    customerEmail,
+    Number(priceTotal),
+    Number(momoNumber),
+    provider,
+  );
 
   return { errors: {}, success: true, errorMessage: null };
 };

@@ -28,10 +28,24 @@ import {
   Plus,
   CheckCircle,
   Smartphone,
+  Network,
+  RadioReceiver,
+  Antenna,
+  Satellite,
+  SatelliteDish,
 } from "lucide-react";
 import { ProductsType } from "@/db/schema";
 import { OrderFormState, validateOrderForm } from "@/actions/orderValidation";
 import Image from "next/image";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 type PaymentType = "stripe" | "paystack";
 
@@ -43,6 +57,7 @@ export const OrderForm = ({ product }: { product: ProductsType }) => {
     customerPhone: "",
     deliveryAddress: "",
     paymentMethod: "momo",
+    provider: "",
     quantity: 10,
   });
 
@@ -285,9 +300,41 @@ export const OrderForm = ({ product }: { product: ProductsType }) => {
               {/* Payment Form */}
               <div className="mt-6">
                 {orderDetails.paymentMethod === "momo" ? (
-                  <div className="border-muted-foreground/25 rounded-lg border border-dashed p-6 text-center">
+                  <div className="border-muted-foreground/25 space-y-4 rounded-lg border border-dashed p-6 text-center">
                     <div className="space-y-2">
-                      <Label htmlFor="momo-number">Mobile Money Number</Label>
+                      <Label htmlFor="provider">Provider</Label>
+                      <div className="relative">
+                        <SatelliteDish className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                        <Select
+                          onValueChange={(value) =>
+                            setOrderDetails((prev) => ({
+                              ...prev,
+                              provider: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger id="provider" className="w-full pl-10">
+                            <SelectValue placeholder="Select a network" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Network</SelectLabel>
+                              <SelectItem value="mtn">MTN</SelectItem>
+                              <SelectItem value="telecel">Telecel</SelectItem>
+                              <SelectItem value="at">AT</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        <Input
+                          type="hidden"
+                          name="provider"
+                          value={orderDetails.provider}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="momo-number">Number</Label>
                       <div className="relative">
                         <Smartphone className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
                         <Input
@@ -405,6 +452,11 @@ export const OrderForm = ({ product }: { product: ProductsType }) => {
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
+                    <Input
+                      type="hidden"
+                      name="quantity"
+                      value={orderDetails.quantity}
+                    />
                   </div>
                 )}
               </div>

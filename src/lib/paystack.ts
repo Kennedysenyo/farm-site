@@ -26,7 +26,8 @@ export const momoPay = async (
     });
     const data = await response.json();
     if (!data) throw new Error("Fialed to initiate charge on user");
-    return data;
+
+    return data.data.reference;
   } catch (error) {
     if (error instanceof Error) {
       console.error(error);
