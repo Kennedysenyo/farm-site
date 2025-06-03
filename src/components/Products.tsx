@@ -6,7 +6,7 @@ import Image from "next/image";
 import { products } from "@/lib/data";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export const ProductsSection = () => {
   const productPreview = products.map((product) => (

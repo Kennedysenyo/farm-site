@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  ChangeEvent,
-  FormEvent,
-  useActionState,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, useActionState, useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -28,10 +22,6 @@ import {
   Plus,
   CheckCircle,
   Smartphone,
-  Network,
-  RadioReceiver,
-  Antenna,
-  Satellite,
   SatelliteDish,
 } from "lucide-react";
 import { ProductsType } from "@/db/schema";
@@ -47,8 +37,6 @@ import {
   SelectValue,
 } from "./ui/select";
 
-type PaymentType = "stripe" | "paystack";
-
 export const OrderForm = ({ product }: { product: ProductsType }) => {
   const [orderPlaced, setOrderPlaced] = useState<boolean>(false);
   const [orderDetails, setOrderDetails] = useState({
@@ -63,7 +51,7 @@ export const OrderForm = ({ product }: { product: ProductsType }) => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console;
+
     setOrderDetails((prev) => ({ ...prev, [name]: value }));
   };
 

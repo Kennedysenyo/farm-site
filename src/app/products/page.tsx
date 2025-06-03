@@ -11,7 +11,6 @@ import Fuse from "fuse.js";
 import {
   Loader,
   Search,
-  ShoppingCart,
   Star,
   Package,
   AlertCircle,
