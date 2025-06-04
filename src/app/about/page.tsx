@@ -178,7 +178,7 @@ export default function AboutPage() {
             <div className="relative">
               <div className="from-primary/20 absolute -inset-4 rounded-2xl bg-gradient-to-r to-transparent blur-xl" />
               <Image
-                src="/img/about-story.jpg"
+                src="/img/about/story.jpg"
                 alt="Cocoa Seedling Farmer"
                 width={600}
                 height={500}
