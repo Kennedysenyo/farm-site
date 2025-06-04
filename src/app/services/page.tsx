@@ -313,7 +313,7 @@ export default function ServicesPage() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            {testimonials.map((testimonial, index) => (
+            {testimonials.slice(0, 2).map((testimonial, index) => (
               <Card key={index} className="p-6">
                 <div className="mb-4 flex items-center gap-1">
                   {[...Array(testimonial.rating)].map((_, i) => (
