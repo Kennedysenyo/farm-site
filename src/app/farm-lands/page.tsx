@@ -27,176 +27,96 @@ import {
   AlertCircle,
   Phone,
   Calendar,
+  Loader,
 } from "lucide-react";
+import Fuse from "fuse.js";
 
-type Farmland = {
-  id: string;
-  title: string;
-  location: string;
-  region: string;
-  size: number;
-  price: number;
-  pricePerAcre: number;
-  description: string;
-  features: string[];
-  images: string[];
-  soilType: string;
-  waterAccess: boolean;
-  electricity: boolean;
-  roadAccess: "excellent" | "good" | "fair";
-  nearbyAmenities: {
-    school: number;
-    hospital: number;
-    market: number;
-  };
-  status: "available" | "sold" | "reserved";
-  featured: boolean;
-  coordinates?: { lat: number; lng: number };
-};
-
-const mockFarmlands: Farmland[] = [
-  {
-    id: "1",
-    title: "Premium Cocoa Farm - Ashanti Region",
-    location: "Kumasi, Ashanti Region",
-    region: "ashanti",
-    size: 25,
-    price: 125000,
-    pricePerAcre: 5000,
-    description:
-      "Excellent farmland perfect for cocoa cultivation with rich, well-drained soil and established infrastructure. Located in a prime agricultural zone with proven high yields.",
-    features: [
-      "Rich Soil",
-      "Established Infrastructure",
-      "High Yield Potential",
-      "Secure Title",
-    ],
-    images: ["/placeholder.svg?height=300&width=400"],
-    soilType: "Loamy",
-    waterAccess: true,
-    electricity: true,
-    roadAccess: "excellent",
-    nearbyAmenities: {
-      school: 2,
-      hospital: 5,
-      market: 3,
-    },
-    status: "available",
-    featured: true,
-  },
-  {
-    id: "2",
-    title: "Organic Vegetable Farm - Eastern Region",
-    location: "Koforidua, Eastern Region",
-    region: "eastern",
-    size: 15,
-    price: 90000,
-    pricePerAcre: 6000,
-    description:
-      "Ideal for organic vegetable farming with natural water sources and fertile soil. Perfect for sustainable agriculture practices.",
-    features: [
-      "Natural Water Source",
-      "Organic Certified",
-      "Fertile Soil",
-      "Eco-Friendly",
-    ],
-    images: ["/placeholder.svg?height=300&width=400"],
-    soilType: "Clay Loam",
-    waterAccess: true,
-    electricity: false,
-    roadAccess: "good",
-    nearbyAmenities: {
-      school: 4,
-      hospital: 8,
-      market: 2,
-    },
-    status: "available",
-    featured: false,
-  },
-  {
-    id: "3",
-    title: "Mixed Crop Farm - Central Region",
-    location: "Cape Coast, Central Region",
-    region: "central",
-    size: 40,
-    price: 200000,
-    pricePerAcre: 5000,
-    description:
-      "Large farmland suitable for mixed crop cultivation including cassava, maize, and plantain. Great investment opportunity.",
-    features: [
-      "Large Acreage",
-      "Mixed Crop Potential",
-      "Investment Grade",
-      "Strategic Location",
-    ],
-    images: ["/placeholder.svg?height=300&width=400"],
-    soilType: "Sandy Loam",
-    waterAccess: true,
-    electricity: true,
-    roadAccess: "excellent",
-    nearbyAmenities: {
-      school: 1,
-      hospital: 3,
-      market: 1,
-    },
-    status: "reserved",
-    featured: true,
-  },
-];
+import { FarmlandType } from "@/db/schema";
 
 export default function FarmlandsPage() {
-  const [farmlands, setFarmlands] = useState<Farmland[]>([]);
-  const [filteredFarmlands, setFilteredFarmlands] =
-    useState<Farmland[]>(mockFarmlands);
+  const [farmlands, setFarmlands] = useState<FarmlandType[]>([]);
+  const [filteredFarmlands, setFilteredFarmlands] = useState<FarmlandType[]>(
+    [],
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState<string>("all");
   const [priceRange, setPriceRange] = useState<string>("all");
   const [sizeRange, setSizeRange] = useState<string>("all");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   // const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    setFarmlands(mockFarmlands);
-    let filtered = farmlands;
+    const fetchFarmlands = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/farm-lands", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (!data) throw new Error("Failed to fetch data");
+        setFarmlands(data);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error);
+          setError(error.message);
+        }
+        setError(error as string);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFarmlands();
+  }, []);
 
+  useEffect(() => {
+    let filtered = farmlands;
     // Search filter
+    const options = {
+      keys: ["title", "location", "region", "description"],
+      threshold: 0.3,
+    };
+    const fuse = new Fuse(farmlands, options);
     if (searchQuery) {
-      filtered = filtered.filter(
-        (land) =>
-          land.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          land.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          land.description.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
+      filtered = fuse.search(searchQuery).map((r) => r.item);
     }
 
     // Region filter
-    if (selectedRegion !== "all") {
-      filtered = filtered.filter((land) => land.region === selectedRegion);
+    if (selectedRegion !== "all" && !error) {
+      filtered = filtered.filter(
+        (land) => land.region.toLowerCase() === selectedRegion,
+      );
     }
 
     // Price filter
-    if (priceRange !== "all") {
+    if (priceRange !== "all" && !error) {
       const [min, max] = priceRange.split("-").map(Number);
       filtered = filtered.filter(
-        (land) => land.price >= min && (max ? land.price <= max : true),
+        (land) =>
+          Number(land.price) >= min && (max ? Number(land.price) <= max : true),
       );
     }
 
     // Size filter
-    if (sizeRange !== "all") {
+    if (sizeRange !== "all" && !error) {
       const [min, max] = sizeRange.split("-").map(Number);
       filtered = filtered.filter(
-        (land) => land.size >= min && (max ? land.size <= max : true),
+        (land) =>
+          Number(land.size) >= min && (max ? Number(land.size) <= max : true),
       );
     }
 
     setFilteredFarmlands(filtered);
   }, [searchQuery, selectedRegion, priceRange, sizeRange, farmlands]);
 
-  const FarmlandCard = ({ farmland }: { farmland: Farmland }) => (
+  const FarmlandCard = ({ farmland }: { farmland: FarmlandType }) => (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative">
         <Image
-          src={farmland.images[0] || "/placeholder.svg"}
+          src={"/placeholder.svg"}
           alt={farmland.title}
           width={400}
           height={250}
@@ -204,9 +124,9 @@ export default function FarmlandsPage() {
         />
 
         <div className="absolute top-3 left-3 flex gap-2">
-          {farmland.featured && (
+          {/* {farmland.featured && (
             <Badge className="bg-yellow-500 text-white">⭐ Featured</Badge>
-          )}
+          )} */}
           <Badge
             variant={
               farmland.status === "available"
@@ -428,7 +348,12 @@ export default function FarmlandsPage() {
             </Button>
           </div>
 
-          {filteredFarmlands.length > 0 ? (
+          {loading ? (
+            <div className="flex h-64 flex-col items-center justify-center space-y-4">
+              <Loader className="text-primary h-12 w-12 animate-spin" />
+              <p className="text-muted-foreground">Loading farmlands...</p>
+            </div>
+          ) : filteredFarmlands.length > 0 ? (
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {filteredFarmlands.map((farmland) => (
                 <FarmlandCard key={farmland.id} farmland={farmland} />

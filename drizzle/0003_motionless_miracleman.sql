@@ -1,0 +1,20 @@
+CREATE TABLE "farmlands" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"title" text NOT NULL,
+	"location" text NOT NULL,
+	"region" varchar(100) NOT NULL,
+	"size" numeric(10, 2) NOT NULL,
+	"price" numeric(12, 2) NOT NULL,
+	"price_per_acre" numeric(12, 2) NOT NULL,
+	"description" text NOT NULL,
+	"features" jsonb NOT NULL,
+	"images" jsonb NOT NULL,
+	"soil_type" varchar(100) NOT NULL,
+	"water_access" boolean NOT NULL,
+	"electricity" boolean NOT NULL,
+	"road_access" varchar(20) NOT NULL,
+	"nearby_amenities" jsonb NOT NULL,
+	"status" varchar(20) NOT NULL,
+	"featured" boolean NOT NULL,
+	"coordinates" jsonb
+);

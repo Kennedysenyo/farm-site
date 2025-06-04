@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import { products } from "@/lib/data";
+import { products } from "@/utils/data";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ArrowRight } from "lucide-react";

@@ -12,7 +12,7 @@ export const AboutSection = () => {
           <div className="relative">
             <div className="from-primary/20 absolute -inset-4 rounded-2xl bg-gradient-to-r to-transparent blur-xl" />
             <Image
-              src="/img/cocoa-nursery.jpg"
+              src="/img/home/about.jpg"
               alt="cocoa-nursery"
               width={600}
               height={500}

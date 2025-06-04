@@ -62,8 +62,8 @@ export default function ProductsPage() {
   const [error, setError] = useState("");
   const [query, setQuery] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const isMobile = useMobile();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const isMobile = useMobile();
 
   useEffect(() => {
     const fetchData = async () => {

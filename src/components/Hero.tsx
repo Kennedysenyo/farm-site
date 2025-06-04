@@ -9,7 +9,7 @@ export const Hero = () => {
     <section className="relative flex min-h-[100vh] items-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/img/hero.png"
+          src="/img/home/hero.png"
           alt="Farm landscape"
           fill
           priority

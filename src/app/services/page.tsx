@@ -7,10 +7,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Sprout,
-  BookOpenCheck,
-  MapPin,
-  Tractor,
   CheckCircle,
   ArrowRight,
   Users,
@@ -21,254 +17,7 @@ import {
   Calendar,
   Star,
 } from "lucide-react";
-
-const services = [
-  {
-    id: "seedlings",
-    icon: Sprout,
-    title: "Premium Seedlings",
-    subtitle: "High-Quality, Disease-Resistant Varieties",
-    description:
-      "We provide top-grade seedlings with proven genetics and exceptional survival rates for maximum yield potential.",
-    features: [
-      "95% survival rate guarantee",
-      "Disease-resistant varieties",
-      "Certified organic options",
-      "Expert growing guidance",
-      "Delivery to your farm",
-      "Post-planting support",
-    ],
-    pricing: {
-      basic: {
-        name: "Basic Package",
-        price: 25,
-        unit: "per seedling",
-        features: ["Quality seedlings", "Basic guidance", "Delivery included"],
-      },
-      premium: {
-        name: "Premium Package",
-        price: 35,
-        unit: "per seedling",
-        features: [
-          "Premium varieties",
-          "Expert consultation",
-          "Delivery & planting",
-          "6-month support",
-        ],
-      },
-      enterprise: {
-        name: "Enterprise Package",
-        price: "Custom",
-        unit: "bulk orders",
-        features: [
-          "Volume discounts",
-          "Custom varieties",
-          "Full farm setup",
-          "Ongoing partnership",
-        ],
-      },
-    },
-    process: [
-      "Consultation & soil analysis",
-      "Variety selection & recommendation",
-      "Seedling preparation & quality check",
-      "Delivery & planting guidance",
-      "Follow-up support & monitoring",
-    ],
-    image: "/placeholder.svg?height=400&width=600",
-  },
-  {
-    id: "consultation",
-    icon: BookOpenCheck,
-    title: "Expert Consultation",
-    subtitle: "Professional Agricultural Guidance",
-    description:
-      "Get expert advice from experienced agronomists and farming specialists to optimize your agricultural operations.",
-    features: [
-      "Soil analysis & testing",
-      "Crop selection guidance",
-      "Farming best practices",
-      "Pest & disease management",
-      "Yield optimization strategies",
-      "Market analysis & planning",
-    ],
-    pricing: {
-      basic: {
-        name: "Basic Consultation",
-        price: 150,
-        unit: "per session",
-        features: [
-          "1-hour consultation",
-          "Basic recommendations",
-          "Follow-up email",
-        ],
-      },
-      premium: {
-        name: "Comprehensive Plan",
-        price: 500,
-        unit: "per farm",
-        features: [
-          "Full farm assessment",
-          "Detailed action plan",
-          "3 follow-up sessions",
-          "Written report",
-        ],
-      },
-      enterprise: {
-        name: "Ongoing Partnership",
-        price: "Custom",
-        unit: "monthly retainer",
-        features: [
-          "Monthly consultations",
-          "24/7 support",
-          "Priority assistance",
-          "Custom solutions",
-        ],
-      },
-    },
-    process: [
-      "Initial farm assessment",
-      "Soil & environmental analysis",
-      "Custom strategy development",
-      "Implementation guidance",
-      "Ongoing monitoring & support",
-    ],
-    image: "/placeholder.svg?height=400&width=600",
-  },
-  {
-    id: "farmland",
-    icon: MapPin,
-    title: "Farmland Solutions",
-    subtitle: "Land Acquisition & Development",
-    description:
-      "Complete farmland services from acquisition to development, helping you secure and optimize agricultural properties.",
-    features: [
-      "Land sourcing & evaluation",
-      "Legal documentation support",
-      "Soil quality assessment",
-      "Infrastructure development",
-      "Title verification",
-      "Investment analysis",
-    ],
-    pricing: {
-      basic: {
-        name: "Land Sourcing",
-        price: 2000,
-        unit: "per search",
-        features: [
-          "Property identification",
-          "Basic evaluation",
-          "Legal verification",
-        ],
-      },
-      premium: {
-        name: "Full Service",
-        price: 5000,
-        unit: "per transaction",
-        features: [
-          "Complete acquisition support",
-          "Due diligence",
-          "Documentation",
-          "Development planning",
-        ],
-      },
-      enterprise: {
-        name: "Investment Package",
-        price: "Custom",
-        unit: "large projects",
-        features: [
-          "Portfolio development",
-          "Investment analysis",
-          "Project management",
-          "Ongoing support",
-        ],
-      },
-    },
-    process: [
-      "Requirements assessment",
-      "Property identification & evaluation",
-      "Due diligence & verification",
-      "Negotiation & acquisition",
-      "Development & optimization",
-    ],
-    image: "/placeholder.svg?height=400&width=600",
-  },
-  {
-    id: "equipment",
-    icon: Tractor,
-    title: "Equipment Support",
-    subtitle: "Modern Farming Equipment & Tools",
-    description:
-      "Access to modern farming equipment, tools, and machinery with maintenance support and training services.",
-    features: [
-      "Equipment rental & sales",
-      "Maintenance & repair services",
-      "Operator training programs",
-      "Technology integration",
-      "Financing options available",
-      "24/7 technical support",
-    ],
-    pricing: {
-      basic: {
-        name: "Equipment Rental",
-        price: 200,
-        unit: "per day",
-        features: ["Basic equipment", "Operator included", "Fuel included"],
-      },
-      premium: {
-        name: "Seasonal Package",
-        price: 1500,
-        unit: "per month",
-        features: [
-          "Multiple equipment",
-          "Maintenance included",
-          "Training provided",
-          "Priority booking",
-        ],
-      },
-      enterprise: {
-        name: "Purchase Program",
-        price: "Custom",
-        unit: "financing available",
-        features: [
-          "Equipment purchase",
-          "Financing options",
-          "Full warranty",
-          "Training & support",
-        ],
-      },
-    },
-    process: [
-      "Equipment needs assessment",
-      "Selection & recommendation",
-      "Training & orientation",
-      "Deployment & setup",
-      "Ongoing maintenance & support",
-    ],
-    image: "/placeholder.svg?height=400&width=600",
-  },
-];
-
-const testimonials = [
-  {
-    name: "John Mensah",
-    role: "Cocoa Farmer",
-    service: "Premium Seedlings",
-    content:
-      "The seedlings from AgriGrow have transformed my farm. 98% survival rate and excellent growth!",
-    rating: 5,
-    image: "/placeholder.svg?height=60&width=60",
-  },
-  {
-    name: "Mary Asante",
-    role: "Agricultural Entrepreneur",
-    service: "Expert Consultation",
-    content:
-      "Their consultation services helped me increase my yield by 40%. Highly recommended!",
-    rating: 5,
-    image: "/placeholder.svg?height=60&width=60",
-  },
-];
+import { services, testimonials } from "@/utils/data";
 
 export default function ServicesPage() {
   const ServiceCard = ({ service }: { service: (typeof services)[0] }) => {
@@ -577,14 +326,15 @@ export default function ServicesPage() {
                 <p className="text-muted-foreground mb-4">
                   "{testimonial.content}"
                 </p>
-                <div className="flex items-center gap-4">
-                  <Image
-                    src={testimonial.image || "/placeholder.svg"}
-                    alt={testimonial.name}
-                    width={48}
-                    height={48}
-                    className="rounded-full"
-                  />
+                <div className="relative z-10 flex items-center justify-start pl-15">
+                  <div className="absolute -left-0 z-20 h-12 w-12">
+                    <Image
+                      src={testimonial.image || "/placeholder.svg"}
+                      alt={testimonial.name}
+                      fill
+                      className="rounded-full object-cover"
+                    />
+                  </div>
                   <div>
                     <div className="font-semibold">{testimonial.name}</div>
                     <div className="text-muted-foreground text-sm">
@@ -620,8 +370,7 @@ export default function ServicesPage() {
             </Button>
             <Button
               size="lg"
-              variant="outline"
-              className="hover:text-primary border-white text-white hover:bg-white"
+              className="hover:text-primary border border-white bg-transparent px-8 py-5 text-lg text-white hover:bg-white"
               asChild
             >
               <Link href="/contacts">
