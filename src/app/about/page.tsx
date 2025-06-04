@@ -129,7 +129,7 @@ export default function AboutPage() {
       <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/img/cashew.jpg"
+            src="/img/about/hero.jpg"
             alt="Farm Vision"
             fill
             priority
@@ -311,7 +311,7 @@ export default function AboutPage() {
             <div className="relative">
               <div className="from-primary/20 absolute -inset-4 rounded-2xl bg-gradient-to-l to-transparent blur-xl" />
               <Image
-                src="/img/team.jpg"
+                src="/img/about/team.jpg"
                 alt="Our team"
                 width={600}
                 height={500}
