@@ -57,10 +57,10 @@ const categories = [
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<ProductsType[]>([]);
-  const [displayProducts, setDisplayProducts] = useState<ProductsType[]>([]);
-  const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [displayProducts, setDisplayProducts] = useState<ProductsType[]>([]);
   const [error, setError] = useState("");
+  const [query, setQuery] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const isMobile = useMobile();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -76,7 +76,7 @@ export default function ProductsPage() {
           },
         });
 
-        const mockProducts = await response.json();
+        const mockProducts: ProductsType[] = await response.json();
         if (!mockProducts) throw new Error("Failed fetching data");
         setProducts(mockProducts);
       } catch (error) {
@@ -95,8 +95,6 @@ export default function ProductsPage() {
     fetchData();
   }, []);
 
-  const options = { keys: ["name", "category", "description"], threshold: 0.3 };
-
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value.trim());
   };
@@ -107,9 +105,13 @@ export default function ProductsPage() {
 
   useEffect(() => {
     let filtered = products;
+    const options = {
+      keys: ["name", "category", "description"],
+      threshold: 0.3,
+    };
 
     // Apply category filter
-    if (selectedCategory) {
+    if (selectedCategory && displayProducts.length > 0) {
       filtered = products.filter(
         (product) =>
           product.category.toLowerCase() === selectedCategory.toLowerCase(),
@@ -121,7 +123,6 @@ export default function ProductsPage() {
       const fuseInstance = new Fuse(filtered, options);
       filtered = fuseInstance.search(query).map((r) => r.item);
     }
-
     setDisplayProducts(filtered);
   }, [query, products, selectedCategory]);
 
@@ -306,6 +307,7 @@ export default function ProductsPage() {
                       }
                       size="sm"
                       className="h-10"
+                      disabled={loading}
                       onClick={() => filterCategory(cat.value)}
                     >
                       <Icon className="mr-2 h-4 w-4" />

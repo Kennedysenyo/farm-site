@@ -28,8 +28,12 @@ export const POST = async (request: NextRequest) => {
     const { event, data } = body;
     console.log(event, data);
 
-    return NextResponse.json("Ok", { status: 200 });
+    return NextResponse.json({ success: "ok" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json("Invalid JSON", { status: 400 });
+    if (error instanceof Error) {
+      console.error(error);
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+    return NextResponse.json({ error }, { status: 400 });
   }
 };

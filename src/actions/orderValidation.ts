@@ -21,7 +21,7 @@ export type OrderFormState = {
 };
 
 export const validateOrderForm = async (
-  prevState: OrderFormState,
+  _prevState: OrderFormState,
   formData: FormData,
 ): Promise<OrderFormState> => {
   const customerName = (formData.get("customerName") as string).trim();

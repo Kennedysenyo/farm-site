@@ -8,8 +8,8 @@ export const GET = async () => {
 
     if (!productsData || productsData.length === 0) {
       return NextResponse.json(
-        { error: { message: "No products found." } },
-        { status: 404 },
+        { message: "No products found." },
+        { status: 400 },
       );
     }
 
@@ -20,9 +20,16 @@ export const GET = async () => {
     );
     return res;
   } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      return NextResponse.json(
+        { message: "Failed fetching products" },
+        { status: 400 },
+      );
+    }
     console.error("GET /api/products error:", error);
     return NextResponse.json(
-      { error: { message: "Internal server error." } },
+      { message: "Internal server error." },
       { status: 500 },
     );
   }
