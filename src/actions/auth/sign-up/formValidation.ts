@@ -1,5 +1,8 @@
 "use server";
 
+import { isCorrectFormat } from "@/utils/format-checker";
+import { generateToken } from "../token/generateToken";
+
 type SignupFormError = {
   firstName?: string;
   lastName?: string;
@@ -20,5 +23,32 @@ export const validateSignUp = async (
   prevState: SignupFormState,
   formData: FormData,
 ): Promise<SignupFormState> => {
+  const firstName = (formData.get("first-name") as string).trim();
+  const lastName = (formData.get("last-name") as string).trim();
+  const email = (formData.get("email") as string).trim();
+  const phone = (formData.get("phone") as string).trim();
+  const password = (formData.get("password") as string).trim();
+  const confirmPassword = (formData.get("confirm-password") as string).trim();
+
+  const formErrors: SignupFormError = {};
+
+  if (!firstName) formErrors.firstName = "First name is required";
+  if (!lastName) formErrors.lastName = "Last name is required";
+  if (!email) formErrors.email = "Enmail is required";
+  if (!phone) formErrors.phone = "Phone is required";
+  if (!password) formErrors.password = "Password is required";
+  else if (!isCorrectFormat("password", password))
+    formErrors.password =
+      "Password MUST be at least 8 characters, have numbers, and special characters";
+  if (!confirmPassword) formErrors.confirmPassword = "Confirm Password";
+  else if (confirmPassword !== password)
+    formErrors.confirmPassword = "Does not match password";
+
+  if (Object.keys(formErrors).length > 0)
+    return { formErrors, success: false, errorMessage: null };
+
+  const errorMessage = await generateToken("signup", email, password);
+
+  if (errorMessage) return { formErrors: {}, success: false, errorMessage };
   return { formErrors: {}, success: true, errorMessage: null };
 };

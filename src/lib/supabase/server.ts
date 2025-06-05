@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { createClient as createNewClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
 export async function createClient() {
@@ -23,3 +24,10 @@ export async function createClient() {
     },
   );
 }
+
+export const createAdminClient = async () => {
+  return createNewClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERIAL_ROLE_KEY!,
+  );
+};

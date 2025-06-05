@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import Image from "next/image";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Eye,
@@ -63,6 +63,23 @@ export default function SignupPage() {
     validateSignUp,
     initialState,
   );
+
+  useEffect(() => {
+    if (state.success) {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+        agreeToTerms: false,
+        subscribeNewsletter: false,
+      });
+
+      router.push("/verify-otp");
+    }
+  }, [state, router]);
 
   return (
     <div className="flex min-h-screen">
@@ -173,11 +190,15 @@ export default function SignupPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">First Name</label>
+                    <label htmlFor="first-name" className="text-sm font-medium">
+                      First Name
+                    </label>
                     <div className="relative">
                       <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                       <Input
-                        placeholder="First name"
+                        id="first-name"
+                        name="first-name"
+                        placeholder="eg. John"
                         className="pl-10"
                         value={formData.firstName}
                         onChange={(e) =>
@@ -193,11 +214,15 @@ export default function SignupPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Last Name</label>
+                    <label htmlFor="last-name" className="text-sm font-medium">
+                      Last Name
+                    </label>
                     <div className="relative">
                       <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                       <Input
-                        placeholder="Last name"
+                        id="last-name"
+                        name="last-name"
+                        placeholder="eg. Doe"
                         className="pl-10"
                         value={formData.lastName}
                         onChange={(e) =>
@@ -214,12 +239,16 @@ export default function SignupPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Email Address</label>
+                  <label htmlFor="email" className="text-sm font-medium">
+                    Email Address
+                  </label>
                   <div className="relative">
                     <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                     <Input
+                      id="email"
+                      name="email"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="eg. johndoe@example.com"
                       className="pl-10"
                       value={formData.email}
                       onChange={(e) =>
@@ -235,10 +264,14 @@ export default function SignupPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Phone Number</label>
+                  <label htmlFor="phone" className="text-sm font-medium">
+                    Phone Number
+                  </label>
                   <div className="relative">
                     <Phone className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                     <Input
+                      id="phone"
+                      name="phone"
                       type="tel"
                       placeholder="+233 123 456 789"
                       className="pl-10"
@@ -256,10 +289,14 @@ export default function SignupPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Password</label>
+                  <label htmlFor="password" className="text-sm font-medium">
+                    Password
+                  </label>
                   <div className="relative">
                     <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                     <Input
+                      id="password"
+                      name="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Create a password"
                       className="pr-10 pl-10"
@@ -288,12 +325,17 @@ export default function SignupPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">
+                  <label
+                    htmlFor="confirm-password"
+                    className="text-sm font-medium"
+                  >
                     Confirm Password
                   </label>
                   <div className="relative">
                     <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                     <Input
+                      id="confirm-password"
+                      name="confirm-password"
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm your password"
                       className="pr-10 pl-10"
@@ -383,9 +425,9 @@ export default function SignupPage() {
                   type="submit"
                   className="w-full"
                   size="lg"
-                  disabled={isLoading}
+                  disabled={isPending}
                 >
-                  {isLoading ? (
+                  {isPending ? (
                     <>
                       <Loader className="mr-2 h-4 w-4 animate-spin" />
                       Creating Account...
@@ -403,7 +445,7 @@ export default function SignupPage() {
                 <p className="text-muted-foreground text-sm">
                   Already have an account?{" "}
                   <Link
-                    href="/auth/login"
+                    href="/login"
                     className="text-primary font-medium hover:underline"
                   >
                     Sign in here

@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import Image from "next/image";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import {
   Eye,
   EyeOff,
@@ -20,14 +20,12 @@ import {
   Chrome,
   Apple,
 } from "lucide-react";
-import {
-  SignupFormState,
-  validateSignUp,
-} from "@/actions/auth/sign-up/formValidation";
+
 import {
   LoginFormState,
   validateLogin,
 } from "@/actions/auth/login/formValidation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -36,6 +34,8 @@ export default function LoginPage() {
     rememberMe: false,
   });
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams().get("product") || "";
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -59,6 +59,13 @@ export default function LoginPage() {
     validateLogin,
     initialState,
   );
+
+  useEffect(() => {
+    if (state.success) {
+      setFormData({ email: "", password: "", rememberMe: false });
+      router.replace(`/order?product=${searchParams}`);
+    }
+  }, [state, router]);
 
   return (
     <div className="flex min-h-screen">
@@ -87,19 +94,23 @@ export default function LoginPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <form onSubmit={() => {}} className="space-y-6">
+              <form action={formAction} className="space-y-6">
                 {state.errorMessage && (
-                  <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+                  <div className="text-destructive rounded-md border border-red-200 bg-red-50 p-3 text-center text-sm">
                     {state.errorMessage}
                   </div>
                 )}
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Email Address</label>
+                  <label htmlFor="email" className="text-sm font-medium">
+                    Email Address
+                  </label>
                   <div className="relative">
                     <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                     <Input
                       type="email"
+                      id="email"
+                      name="email"
                       placeholder="Enter your email"
                       className="pl-10"
                       value={formData.email}
@@ -109,18 +120,22 @@ export default function LoginPage() {
                     />
                   </div>
                   {state.formErrors.email && (
-                    <p className="text-sm text-red-600">
+                    <p className="text-destructive text-xs">
                       {state.formErrors.email}
                     </p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Password</label>
+                  <label htmlFor="password" className="text-sm font-medium">
+                    Password
+                  </label>
                   <div className="relative">
                     <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                     <Input
                       type={showPassword ? "text" : "password"}
+                      id="password"
+                      name="password"
                       placeholder="Enter your password"
                       className="pr-10 pl-10"
                       value={formData.password}
@@ -141,7 +156,7 @@ export default function LoginPage() {
                     </button>
                   </div>
                   {state.formErrors.password && (
-                    <p className="text-sm text-red-600">
+                    <p className="text-destructive text-xs">
                       {state.formErrors.password}
                     </p>
                   )}
