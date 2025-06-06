@@ -7,16 +7,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Loader, Mail, RefreshCw } from "lucide-react";
+import {
+  OTPFormState,
+  validateOTPForm,
+} from "@/actions/auth/token/verifyToken";
 
 export const VerifyOTP = ({
   token,
   email,
 }: {
   token?: string;
-  email?: string;
+  email: string;
 }) => {
   const router = useRouter();
 
@@ -77,6 +81,16 @@ export const VerifyOTP = ({
     }
   };
 
+  const initialState: OTPFormState = {
+    formError: {},
+    success: false,
+    errorMessage: null,
+  };
+  const [state, formAction, isPending] = useActionState(
+    validateOTPForm.bind(null, { type: token ? "signup" : "recovery", email }),
+    initialState,
+  );
+
   return (
     <div className="flex min-h-screen">
       {/* Left Side - Form */}
@@ -86,7 +100,7 @@ export const VerifyOTP = ({
           <div className="text-center">
             <Link href="/" className="inline-flex items-center space-x-2">
               <Image
-                src="/placeholder.svg?height=40&width=40"
+                src="/img/logo.png"
                 alt="AgriGrow Logo"
                 width={40}
                 height={40}
@@ -111,7 +125,7 @@ export const VerifyOTP = ({
               </p>
             </CardHeader>
             <CardContent>
-              <div className="space-y-6">
+              <form action={formAction} className="space-y-6">
                 {error && (
                   <div className="rounded-md border border-red-200 bg-red-50 p-3 text-center text-sm text-red-600">
                     {error === "Invalid token"
@@ -132,6 +146,11 @@ export const VerifyOTP = ({
                       inputMode="numeric"
                       className="text-center"
                     />
+                    {state.formError.otp && (
+                      <p className="text-xs text-red-600">
+                        {state.formError.otp}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -139,9 +158,9 @@ export const VerifyOTP = ({
                   type="submit"
                   className="w-full"
                   size="lg"
-                  disabled={isLoading}
+                  disabled={isPending}
                 >
-                  {isLoading ? (
+                  {isPending ? (
                     <>
                       <Loader className="mr-2 h-4 w-4 animate-spin" />
                       Verifying...
@@ -210,7 +229,7 @@ export const VerifyOTP = ({
                     </Link>
                   </p>
                 </div>
-              </div>
+              </form>
             </CardContent>
           </Card>
         </div>

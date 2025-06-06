@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/components/Header";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { MainHeader } from "@/components/MainHeader";
 
 export const metadata: Metadata = {
   title: "Start Agri Consult",
@@ -24,7 +24,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex min-h-screen flex-col">
-            <Header />
+            <MainHeader />
             <main className="w-full flex-1">{children}</main>
           </div>
         </ThemeProvider>

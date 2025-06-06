@@ -25,6 +25,14 @@ export async function createClient() {
   );
 }
 
+export const getUser = async () => {
+  const { auth } = await createClient();
+  const user = await auth.getUser();
+  const { data, error } = user;
+  if (error) return null;
+  return data.user;
+};
+
 export const createAdminClient = async () => {
   return createNewClient(
     process.env.SUPABASE_URL!,

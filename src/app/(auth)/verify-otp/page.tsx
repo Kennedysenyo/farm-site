@@ -8,6 +8,7 @@ export default async function VerifyOTPPage() {
   const email = cookieStore.get("email")?.value;
   console.log("==================", token, email);
 
-  if (!token && !email) redirect("/login");
+  if (!token && !email) redirect("/sign-up");
+  if (!email) redirect("/login");
   return <VerifyOTP token={token} email={email} />;
 }

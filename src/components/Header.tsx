@@ -10,6 +10,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
 import { DarkModeToggle } from "./DarkModeToggle";
+import { User as authUser } from "@supabase/supabase-js";
 
 export const navItems = [
   { name: "Home", href: "/" },
@@ -20,13 +21,11 @@ export const navItems = [
   { name: "Contact", href: "/contacts" },
 ];
 
-export const Header = () => {
+export const Header = ({ user }: { user: authUser | null }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const pathname = usePathname();
   const isMobile = useMobile();
-
-  const user = null;
 
   // Handle scroll effect
   useEffect(() => {
