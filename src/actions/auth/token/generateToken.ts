@@ -8,6 +8,7 @@ export const generateToken = async (
 ) => {
   try {
     const { auth } = await createAdminClient();
+
     const { data, error } = await auth.admin.generateLink({
       type,
       email,

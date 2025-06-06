@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { emitWarning } from "process";
 
 export async function middleware(request: NextRequest) {
   return await updateSession(request);
@@ -43,14 +44,18 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (
-    (!user && request.nextUrl.pathname.startsWith("/order")) ||
-    request.nextUrl.pathname.startsWith("/admin")
-  ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
+  // const authRoutes = ["/login", "/sign-up", "verify-otp", "forgot-password"];
+  // if (user && authRoutes.includes(request.nextUrl.pathname)) {
+  //   return NextResponse.redirect("/");
+  // }
+  // if (
+  //   (!user && request.nextUrl.pathname.startsWith("/order")) ||
+  //   request.nextUrl.pathname.startsWith("/admin")
+  // ) {
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = "/login";
+  //   return NextResponse.redirect(url);
+  // }
 
   return supabaseResponse;
 }

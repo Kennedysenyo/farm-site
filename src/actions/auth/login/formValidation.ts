@@ -1,6 +1,9 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { loginAction } from "./loginAction";
+import { redis } from "@/lib/redis/redis";
+import { caesarCript } from "@/utils/caesarCript";
 
 type LoginFormError = {
   email?: string;
@@ -31,6 +34,38 @@ export const validateLogin = async (
 
   const errorMessage = await loginAction(email, password);
   if (errorMessage) return { formErrors: {}, success: false, errorMessage };
+
+  const token = crypto.randomUUID();
+  console.log("The redis token is ", token);
+  await redis.set(
+    `signup_token:${token}`,
+    caesarCript("encrypt", password, password.length),
+    {
+      ex: 15 * 60,
+    },
+  );
+
+  console.log(
+    "This is the password: ",
+    caesarCript("encrypt", password, password.length),
+  );
+
+  const cookieStore = await cookies();
+  cookieStore.set("signup", JSON.stringify({ email, password }), {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 15 * 60,
+    path: "/",
+  });
+
+  cookieStore.set("token", email, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 15 * 60,
+    path: "/",
+  });
 
   return { formErrors: {}, success: true, errorMessage: null };
 };

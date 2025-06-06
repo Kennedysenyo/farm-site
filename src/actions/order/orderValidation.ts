@@ -1,6 +1,6 @@
 "use server";
 
-import { momoPay } from "@/lib/paystack";
+import { momoPay } from "@/lib/paystack/paystack";
 
 type FormErrorsType = {
   customerName?: string;
