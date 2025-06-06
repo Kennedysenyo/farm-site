@@ -24,7 +24,7 @@ import {
 import {
   LoginFormState,
   validateLogin,
-} from "@/actions/auth/login/formValidation";
+} from "@/actions/auth/login/loginFormValidation";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginPage() {

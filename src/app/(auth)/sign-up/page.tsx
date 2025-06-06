@@ -25,7 +25,7 @@ import {
 import {
   SignupFormState,
   validateSignUp,
-} from "@/actions/auth/sign-up/formValidation";
+} from "@/actions/auth/sign-up/signupFormValidation";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -183,7 +183,7 @@ export default function SignupPage() {
 
               <form action={formAction} className="space-y-4">
                 {state.errorMessage && (
-                  <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+                  <div className="rounded-md border border-red-200 bg-red-50 p-3 text-center text-sm text-red-600">
                     {state.errorMessage}
                   </div>
                 )}

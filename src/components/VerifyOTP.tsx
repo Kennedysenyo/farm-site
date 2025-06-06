@@ -11,11 +11,18 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Loader, Mail, RefreshCw } from "lucide-react";
 
-export const VerifyOTP = () => {
+export const VerifyOTP = ({
+  token,
+  email,
+}: {
+  token?: string;
+  email?: string;
+}) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isResending, setIsResending] = useState(false);
+  const [resendResponse, setResendResponse] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(300);
   const [error, setError] = useState("");
 
@@ -33,7 +40,42 @@ export const VerifyOTP = () => {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const handleResendOTP = async () => {};
+  const handleResendOTP = async () => {
+    try {
+      setIsResending(true);
+
+      const response = await fetch("/api/resend-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          token,
+        }),
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        if (!data) throw new Error("An Error Occured, try again.");
+        setResendResponse(data);
+      } else {
+        const data = await response.json();
+        if (!data) throw new Error("An Error Occured, try again.");
+        setError(data.error.message);
+      }
+
+      // Todo: Show Toast
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        setError(error.message);
+      }
+      setError(error as string);
+    } finally {
+      setIsResending(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -50,7 +92,7 @@ export const VerifyOTP = () => {
                 height={40}
                 className="rounded-full"
               />
-              <span className="text-primary text-2xl font-bold">AgriGrow</span>
+              <span className="text-primary text-2xl font-bold">StartAgri</span>
             </Link>
           </div>
 
@@ -61,16 +103,20 @@ export const VerifyOTP = () => {
               </div>
               <CardTitle className="text-2xl">Verify Your Email</CardTitle>
               <p className="text-muted-foreground">
-                We've sent a 6-digit verification code to
+                {resendResponse
+                  ? "Another verification code sent to"
+                  : "We've sent a 6-digit verification code to"}
                 <br />
-                <span className="text-foreground font-medium">{`email`}</span>
+                <span className="text-foreground font-medium">{email}</span>
               </p>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
                 {error && (
                   <div className="rounded-md border border-red-200 bg-red-50 p-3 text-center text-sm text-red-600">
-                    {error}
+                    {error === "Invalid token"
+                      ? "An error occured, try again"
+                      : error}
                   </div>
                 )}
 
@@ -157,7 +203,7 @@ export const VerifyOTP = () => {
                   <p className="text-muted-foreground text-sm">
                     Wrong email?{" "}
                     <Link
-                      href="/auth/signup"
+                      href="/sign-up"
                       className="text-primary hover:underline"
                     >
                       Go back

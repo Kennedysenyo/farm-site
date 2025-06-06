@@ -1,4 +1,4 @@
-export const caesarCript = (
+export const caesarCrypt = (
   type: "encrypt" | "decrypt",
   text: string,
   key: number,
@@ -11,12 +11,9 @@ export const caesarCript = (
     .map((char) => {
       const code = char.charCodeAt(0);
       if (code >= MIN && code <= MAX) {
-        let shifted;
-        if (type === "encrypt") {
-          shifted = ((code - MIN + key) % RANGE) + RANGE + RANGE + MIN;
-        } else {
-          shifted = ((code - MIN - key) % RANGE) + RANGE + RANGE + MIN;
-        }
+        const shift = type === "encrypt" ? key : -key;
+        const shifted =
+          ((((code - MIN + shift) % RANGE) + RANGE) % RANGE) + MIN;
         return String.fromCharCode(shifted);
       }
       return char;

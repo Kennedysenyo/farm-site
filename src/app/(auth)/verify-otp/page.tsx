@@ -4,9 +4,10 @@ import { cookies } from "next/headers";
 
 export default async function VerifyOTPPage() {
   const cookieStore = await cookies();
-  const signupObject = cookieStore.get("signup")?.value;
-  const recoveryEmail = cookieStore.get("email")?.value;
+  const token = cookieStore.get("token")?.value;
+  const email = cookieStore.get("email")?.value;
+  console.log("==================", token, email);
 
-  if (!signupObject && !recoveryEmail) redirect("/login");
-  return <VerifyOTP />;
+  if (!token && !email) redirect("/login");
+  return <VerifyOTP token={token} email={email} />;
 }

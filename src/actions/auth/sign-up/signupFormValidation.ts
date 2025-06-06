@@ -2,6 +2,9 @@
 
 import { isCorrectFormat } from "@/utils/format-checker";
 import { generateToken } from "../token/generateToken";
+import { cookies } from "next/headers";
+import { caesarCrypt } from "@/utils/caesarCrypt";
+import { redis } from "@/lib/redis/redis";
 
 type SignupFormError = {
   firstName?: string;
@@ -50,5 +53,35 @@ export const validateSignUp = async (
   const errorMessage = await generateToken("signup", email, password);
 
   if (errorMessage) return { formErrors: {}, success: false, errorMessage };
+  const cryptedPassword = caesarCrypt("encrypt", password, password.length);
+  const token = crypto.randomUUID();
+  console.log("The redis token is ", token);
+  await redis.set(
+    `signup_token:${token}`,
+    { password: cryptedPassword },
+    {
+      ex: 15 * 60,
+    },
+  );
+
+  console.log("This is the password: ", cryptedPassword);
+
+  const cookieStore = await cookies();
+  cookieStore.set("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 15 * 60,
+    path: "/",
+  });
+
+  cookieStore.set("email", email, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 15 * 60,
+    path: "/",
+  });
+
   return { formErrors: {}, success: true, errorMessage: null };
 };
