@@ -10,22 +10,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  ArrowRight,
-  Loader,
-  Chrome,
-  Apple,
-} from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, Loader } from "lucide-react";
 
 import {
   LoginFormState,
   validateLogin,
 } from "@/actions/auth/login/loginFormValidation";
 import { useRouter, useSearchParams } from "next/navigation";
+import { FaApple, FaGoogle } from "react-icons/fa";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -76,13 +68,13 @@ export default function LoginPage() {
           <div className="text-center">
             <Link href="/" className="inline-flex items-center space-x-2">
               <Image
-                src="/placeholder.svg?height=40&width=40"
-                alt="AgriGrow Logo"
+                src="/img/logo.png"
+                alt="StartAgri Logo"
                 width={40}
                 height={40}
                 className="rounded-full"
               />
-              <span className="text-primary text-2xl font-bold">AgriGrow</span>
+              <span className="text-primary text-2xl font-bold">StartAgri</span>
             </Link>
           </div>
 
@@ -228,7 +220,7 @@ export default function LoginPage() {
                   onClick={() => handleSocialLogin("google")}
                   disabled={isLoading || isPending}
                 >
-                  <Chrome className="mr-2 h-5 w-5" />
+                  <FaGoogle className="mr-2 h-5 w-5" />
                   Continue with Google
                 </Button>
 
@@ -240,7 +232,7 @@ export default function LoginPage() {
                   onClick={() => handleSocialLogin("apple")}
                   disabled={isLoading || isPending}
                 >
-                  <Apple className="mr-2 h-5 w-5" />
+                  <FaApple className="mr-2 h-5 w-5" />
                   Continue with Apple
                 </Button>
               </div>
@@ -264,7 +256,7 @@ export default function LoginPage() {
       {/* Right Side - Image */}
       <div className="relative hidden flex-1 lg:flex">
         <Image
-          src="/placeholder.svg?height=800&width=600"
+          src="/img/auth/login.jpg"
           alt="Agricultural landscape"
           fill
           className="object-cover"

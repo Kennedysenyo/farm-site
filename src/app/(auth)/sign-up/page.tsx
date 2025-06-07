@@ -126,12 +126,12 @@ export default function SignupPage() {
             <Link href="/" className="inline-flex items-center space-x-2">
               <Image
                 src="/img/logo.png"
-                alt="AgriGrow Logo"
+                alt="StartAgri Logo"
                 width={40}
                 height={40}
                 className="rounded-full"
               />
-              <span className="text-primary text-2xl font-bold">AgriGrow</span>
+              <span className="text-primary text-2xl font-bold">StartAgri</span>
             </Link>
           </div>
 
