@@ -13,7 +13,8 @@ type SignupFormError = {
   phone?: string;
   password?: string;
   confirmPassword?: string;
-  agreeToTerms?: boolean;
+  agreeToTerms?: string;
+  subscribeNewsletter?: string;
 };
 
 export type SignupFormState = {
@@ -31,6 +32,7 @@ export const validateSignUp = async (
   const email = (formData.get("email") as string).trim();
   const phone = (formData.get("phone") as string).trim();
   const password = (formData.get("password") as string).trim();
+  const agreeToTerms = formData.get("agreeToTerms");
   const confirmPassword = (formData.get("confirm-password") as string).trim();
 
   const formErrors: SignupFormError = {};
@@ -39,6 +41,7 @@ export const validateSignUp = async (
   if (!lastName) formErrors.lastName = "Last name is required";
   if (!email) formErrors.email = "Enmail is required";
   if (!phone) formErrors.phone = "Phone is required";
+  if (!agreeToTerms) formErrors.agreeToTerms = "Agree to terms";
   if (!password) formErrors.password = "Password is required";
   else if (!isCorrectFormat("password", password))
     formErrors.password =
@@ -53,6 +56,7 @@ export const validateSignUp = async (
   const errorMessage = await generateToken("signup", email, password);
 
   if (errorMessage) return { formErrors: {}, success: false, errorMessage };
+
   const cryptedPassword = caesarCrypt("encrypt", password, password.length);
   const token = crypto.randomUUID();
   console.log("The redis token is ", token);
@@ -63,8 +67,6 @@ export const validateSignUp = async (
       ex: 15 * 60,
     },
   );
-
-  console.log("This is the password: ", cryptedPassword);
 
   const cookieStore = await cookies();
   cookieStore.set("token", token, {

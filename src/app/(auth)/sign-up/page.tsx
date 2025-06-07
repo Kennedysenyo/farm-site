@@ -19,9 +19,8 @@ import {
   Phone,
   ArrowRight,
   Loader,
-  Chrome,
-  Apple,
 } from "lucide-react";
+import { FaApple, FaGoogle } from "react-icons/fa";
 import {
   SignupFormState,
   validateSignUp,
@@ -66,6 +65,8 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (state.success) {
+      localStorage.setItem("signup_data", JSON.stringify(formData));
+
       setFormData({
         firstName: "",
         lastName: "",
@@ -86,7 +87,7 @@ export default function SignupPage() {
       {/* Left Side - Image */}
       <div className="relative hidden flex-1 lg:flex">
         <Image
-          src="/placeholder.svg?height=800&width=600"
+          src="/img/auth/signup.jpg"
           alt="Agricultural landscape"
           fill
           className="object-cover"
@@ -124,7 +125,7 @@ export default function SignupPage() {
           <div className="text-center">
             <Link href="/" className="inline-flex items-center space-x-2">
               <Image
-                src="/placeholder.svg?height=40&width=40"
+                src="/img/logo.png"
                 alt="AgriGrow Logo"
                 width={40}
                 height={40}
@@ -152,7 +153,7 @@ export default function SignupPage() {
                   onClick={() => handleSocialSignup("google")}
                   disabled={isLoading || isPending}
                 >
-                  <Chrome className="mr-2 h-5 w-5" />
+                  <FaGoogle className="mr-2 h-5 w-5" />
                   Continue with Google
                 </Button>
 
@@ -164,7 +165,7 @@ export default function SignupPage() {
                   onClick={() => handleSocialSignup("apple")}
                   disabled={isLoading}
                 >
-                  <Apple className="mr-2 h-5 w-5" />
+                  <FaApple className="mr-2 h-5 w-5" />
                   Continue with Apple
                 </Button>
               </div>
@@ -373,7 +374,7 @@ export default function SignupPage() {
                       onCheckedChange={(checked) =>
                         handleInputChange("agreeToTerms", checked as boolean)
                       }
-                      className="mt-1"
+                      className={`${state.formErrors.agreeToTerms ? "border-destructive border" : ""} mt-1`}
                     />
                     <label
                       htmlFor="terms"
@@ -395,11 +396,11 @@ export default function SignupPage() {
                       </Link>
                     </label>
                   </div>
-                  {state.formErrors.agreeToTerms && (
-                    <p className="text-xs text-red-600">
-                      {state.formErrors.agreeToTerms}
-                    </p>
-                  )}
+                  <Input
+                    type="hidden"
+                    name="agreeToTerms"
+                    value={formData.agreeToTerms ? "yes" : ""}
+                  />
 
                   <div className="flex items-center space-x-2">
                     <Checkbox
