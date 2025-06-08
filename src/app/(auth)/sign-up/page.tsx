@@ -25,6 +25,7 @@ import {
   SignupFormState,
   validateSignUp,
 } from "@/actions/auth/sign-up/signupFormValidation";
+import { useIsOnline } from "@/hooks/useIsOnline";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -41,6 +42,8 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const isOnline = useIsOnline();
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -65,7 +68,16 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (state.success) {
-      localStorage.setItem("signup_data", JSON.stringify(formData));
+      localStorage.setItem(
+        "signup_data",
+        JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          subscribeNewsletter: formData.subscribeNewsletter,
+        }),
+      );
 
       setFormData({
         firstName: "",
@@ -185,7 +197,7 @@ export default function SignupPage() {
               <form action={formAction} className="space-y-4">
                 {state.errorMessage && (
                   <div className="rounded-md border border-red-200 bg-red-50 p-3 text-center text-sm text-red-600">
-                    {state.errorMessage}
+                    {!isOnline ? state.errorMessage : "Connect to internet"}
                   </div>
                 )}
 

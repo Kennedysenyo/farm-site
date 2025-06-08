@@ -1,3 +1,4 @@
+import { subscribe } from "diagnostics_channel";
 import { InferSelectModel } from "drizzle-orm";
 
 import {
@@ -11,8 +12,19 @@ import {
   jsonb,
 } from "drizzle-orm/pg-core";
 
-export const products = pgTable("products", {
+export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  email: text("email").unique().notNull(),
+  phone: text("phone").notNull(),
+  subscribeNewsletter: boolean("subscribe_newsletter"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const products = pgTable("products", {
+  id: uuid("id").primaryKey(),
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
   description: text("description"),
@@ -49,3 +61,4 @@ export const farmlands = pgTable("farmlands", {
 
 export type FarmlandType = InferSelectModel<typeof farmlands>;
 export type ProductsType = InferSelectModel<typeof products>;
+export type Users = InferSelectModel<typeof users>;

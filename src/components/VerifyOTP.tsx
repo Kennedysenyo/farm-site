@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight, Loader, Mail, RefreshCw } from "lucide-react";
 import {
   OTPFormState,
+  storeUserData,
   validateOTPForm,
 } from "@/actions/auth/token/verifyToken";
 
@@ -24,7 +25,6 @@ export const VerifyOTP = ({
 }) => {
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [resendResponse, setResendResponse] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(300);
@@ -90,6 +90,31 @@ export const VerifyOTP = ({
     validateOTPForm.bind(null, { type: token ? "signup" : "recovery", email }),
     initialState,
   );
+
+  useEffect(() => {
+    const finalise = async () => {
+      console.log("this was called");
+      if (state.success) {
+        if (email && token) {
+          const data = JSON.parse(localStorage.getItem("signup_data")!);
+          const { firstName, lastName, email, phone, subscribeNewsletter } =
+            data;
+          await storeUserData(
+            firstName,
+            lastName,
+            email,
+            phone,
+            subscribeNewsletter,
+          );
+        }
+
+        localStorage.removeItem("signup_data");
+
+        router.replace("/");
+      }
+    };
+    finalise();
+  }, [state, router, email, token]);
 
   return (
     <div className="flex min-h-screen">
@@ -238,7 +263,7 @@ export const VerifyOTP = ({
       {/* Right Side - Image */}
       <div className="relative hidden flex-1 lg:flex">
         <Image
-          src="/placeholder.svg?height=800&width=600"
+          src="/img/auth/verify-otp.jpg"
           alt="Agricultural landscape"
           fill
           className="object-cover"

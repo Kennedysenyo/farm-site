@@ -1,5 +1,7 @@
 "use server";
 
+import { db } from "@/db";
+import { users } from "@/db/schema";
 import { createClient } from "@/lib/supabase/server";
 import { handleError } from "@/utils/handleError";
 import { cookies } from "next/headers";
@@ -12,6 +14,36 @@ export type OTPFormState = {
   formError: MissingField;
   success: boolean;
   errorMessage: string | null;
+};
+
+export const storeUserData = async (
+  firstName: string,
+  lastName: string,
+  email: string,
+  phone: string,
+  subscribeNewsletter: boolean,
+) => {
+  const supabase = await createClient();
+  const { data: user, error: userError } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    throw new Error("User not authenticated");
+  }
+
+  try {
+    // Insert into your Drizzle-managed users table
+    await db.insert(users).values({
+      id: user.user.id,
+      firstName,
+      lastName,
+      email,
+      phone,
+      subscribeNewsletter,
+    });
+  } catch (error) {
+    console.error("Error storing user data:", error);
+    throw error;
+  }
 };
 
 export const verifyOTP = async (
@@ -30,9 +62,6 @@ export const verifyOTP = async (
     if (error) throw error;
 
     const cookieStore = await cookies();
-    if (cookieStore.has("email")) {
-      cookieStore.delete("email");
-    }
 
     if (cookieStore.has("token")) {
       cookieStore.delete("token");
