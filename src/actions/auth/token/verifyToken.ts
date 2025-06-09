@@ -31,6 +31,14 @@ export const storeUserData = async (
   }
 
   try {
+    await supabase.auth.updateUser({
+      data: {
+        firstName,
+        lastName,
+        phone,
+      },
+    });
+
     await db.insert(users).values({
       id: user.user.id,
       firstName,

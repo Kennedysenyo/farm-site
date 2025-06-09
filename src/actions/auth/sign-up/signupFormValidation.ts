@@ -59,7 +59,7 @@ export const validateSignUp = async (
 
   const cryptedPassword = caesarCrypt("encrypt", password, password.length);
   const token = crypto.randomUUID();
-  console.log("The redis token is ", token);
+
   await redis.set(
     `signup_token:${token}`,
     { password: cryptedPassword },
