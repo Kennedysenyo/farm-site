@@ -31,7 +31,6 @@ export const storeUserData = async (
   }
 
   try {
-    // Insert into your Drizzle-managed users table
     await db.insert(users).values({
       id: user.user.id,
       firstName,

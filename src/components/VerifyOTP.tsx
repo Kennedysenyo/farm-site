@@ -95,21 +95,16 @@ export const VerifyOTP = ({
     const finalise = async () => {
       console.log("this was called");
       if (state.success) {
-        if (email && token) {
-          const data = JSON.parse(localStorage.getItem("signup_data")!);
-          const { firstName, lastName, email, phone, subscribeNewsletter } =
-            data;
-          await storeUserData(
-            firstName,
-            lastName,
-            email,
-            phone,
-            subscribeNewsletter,
-          );
-        }
-
+        const data = JSON.parse(localStorage.getItem("signup_data")!);
+        const { firstName, lastName, email, phone, subscribeNewsletter } = data;
+        await storeUserData(
+          firstName,
+          lastName,
+          email,
+          phone,
+          subscribeNewsletter,
+        );
         localStorage.removeItem("signup_data");
-
         router.replace("/");
       }
     };
