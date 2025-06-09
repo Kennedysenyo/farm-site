@@ -47,6 +47,9 @@ export const storeUserData = async (
       phone,
       subscribeNewsletter,
     });
+
+    const cookieStore = await cookies();
+    if (cookieStore.has("email")) cookieStore.delete("email");
   } catch (error) {
     console.error("Error storing user data:", error);
     throw error;

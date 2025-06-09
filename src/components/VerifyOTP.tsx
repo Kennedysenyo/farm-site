@@ -93,7 +93,6 @@ export const VerifyOTP = ({
 
   useEffect(() => {
     const finalise = async () => {
-      console.log("this was called");
       if (state.success) {
         const data = JSON.parse(localStorage.getItem("signup_data")!);
         const { firstName, lastName, email, phone, subscribeNewsletter } = data;
@@ -105,6 +104,7 @@ export const VerifyOTP = ({
           subscribeNewsletter,
         );
         localStorage.removeItem("signup_data");
+
         router.replace("/");
       }
     };
