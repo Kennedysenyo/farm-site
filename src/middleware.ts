@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
-import { emitWarning } from "process";
 
 export async function middleware(request: NextRequest) {
   return await updateSession(request);
@@ -44,18 +44,41 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // const authRoutes = ["/login", "/sign-up", "verify-otp", "forgot-password"];
-  // if (user && authRoutes.includes(request.nextUrl.pathname)) {
-  //   return NextResponse.redirect("/");
-  // }
-  // if (
-  //   (!user && request.nextUrl.pathname.startsWith("/order")) ||
-  //   request.nextUrl.pathname.startsWith("/admin")
-  // ) {
-  //   const url = request.nextUrl.clone();
-  //   url.pathname = "/login";
-  //   return NextResponse.redirect(url);
-  // }
+  const authRoutes = ["/login", "/sign-up", "verify-otp", "forgot-password"];
+  const cookiesStore = await cookies();
+  const isRecoveryMode = cookiesStore.get("recoveryMode")?.value === "true";
+  const pathname = request.nextUrl.pathname;
 
+  if (pathname === "/set-new-password") {
+    if (!user || !isRecoveryMode) {
+      return NextResponse.redirect(new URL("/forgot-password", request.url));
+    }
+  }
+
+  if (user && isRecoveryMode) {
+    if (pathname === "/verify-otp") {
+      return NextResponse.redirect(new URL("/set-new-password", request.url));
+    }
+
+    if (pathname !== "/set-new-password") {
+      return NextResponse.redirect(new URL("/set-new-password", request.url));
+    }
+    return supabaseResponse;
+  }
+
+  if (user && authRoutes.includes(request.nextUrl.pathname)) {
+    return NextResponse.redirect("/");
+  }
+
+  if (
+    (!user && pathname === "/order") ||
+    request.nextUrl.pathname === "/admin"
+  ) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (user && authRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
   return supabaseResponse;
 }

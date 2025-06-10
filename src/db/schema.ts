@@ -1,4 +1,3 @@
-import { subscribe } from "diagnostics_channel";
 import { InferSelectModel } from "drizzle-orm";
 
 import {

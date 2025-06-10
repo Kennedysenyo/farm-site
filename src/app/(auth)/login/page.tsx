@@ -16,7 +16,7 @@ import {
   LoginFormState,
   validateLogin,
 } from "@/actions/auth/login/loginFormValidation";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FaApple, FaGoogle } from "react-icons/fa";
 
 export default function LoginPage() {
@@ -27,19 +27,9 @@ export default function LoginPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams().get("product") || "";
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const [isLoading, setIsLoading] = useState<boolean>();
-
-  const handleSocialLogin = async (provider: "google" | "apple") => {
-    try {
-    } catch (error) {
-    } finally {
-    }
   };
 
   const initialState: LoginFormState = {
@@ -217,8 +207,6 @@ export default function LoginPage() {
                   variant="outline"
                   className="w-full"
                   size="lg"
-                  onClick={() => handleSocialLogin("google")}
-                  disabled={isLoading || isPending}
                 >
                   <FaGoogle className="mr-2 h-5 w-5" />
                   Continue with Google
@@ -229,8 +217,6 @@ export default function LoginPage() {
                   variant="outline"
                   className="w-full"
                   size="lg"
-                  onClick={() => handleSocialLogin("apple")}
-                  disabled={isLoading || isPending}
                 >
                   <FaApple className="mr-2 h-5 w-5" />
                   Continue with Apple

@@ -41,19 +41,11 @@ export default function SignupPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const isOnline = useIsOnline();
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSocialSignup = async (provider: "google" | "apple") => {
-    try {
-    } catch (error) {
-    } finally {
-    }
   };
 
   const initialState: SignupFormState = {
@@ -162,8 +154,6 @@ export default function SignupPage() {
                   variant="outline"
                   className="w-full"
                   size="lg"
-                  onClick={() => handleSocialSignup("google")}
-                  disabled={isLoading || isPending}
                 >
                   <FaGoogle className="mr-2 h-5 w-5" />
                   Continue with Google
@@ -174,8 +164,6 @@ export default function SignupPage() {
                   variant="outline"
                   className="w-full"
                   size="lg"
-                  onClick={() => handleSocialSignup("apple")}
-                  disabled={isLoading}
                 >
                   <FaApple className="mr-2 h-5 w-5" />
                   Continue with Apple

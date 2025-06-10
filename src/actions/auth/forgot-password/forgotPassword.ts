@@ -40,5 +40,12 @@ export const validateForgotPassword = async (
     path: "/",
   });
 
+  cookiesStore.set("recoveryMode", "true", {
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === "production",
+    maxAge: 15 * 60,
+    path: "/",
+  });
+
   return { error: {}, success: true, errorMessage: null };
 };
