@@ -1,7 +1,7 @@
 "use client";
 
 import { useMobile } from "@/hooks/useMobile";
-import { Menu, User, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,6 +11,7 @@ import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
 import { DarkModeToggle } from "./DarkModeToggle";
 import { User as authUser } from "@supabase/supabase-js";
+import { UserButton } from "./UserButton";
 
 export const navItems = [
   { name: "Home", href: "/" },
@@ -65,7 +66,7 @@ export const Header = ({ user }: { user: authUser | null }) => {
             ? "text-primary bg-primary/10"
             : "text-muted-foreground hover:text-foreground",
           isMobile &&
-            "border-border/50 w-full justify-between rounded-none border-b px-0 py-4",
+            "border-border/50 w-full justify-between rounded-none border-b px-0 py-2",
         )}
       >
         <span className="flex items-center gap-2">
@@ -73,7 +74,7 @@ export const Header = ({ user }: { user: authUser | null }) => {
           {item.badge && (
             <Badge
               variant="secondary"
-              className={`${item.badge === "Hot" ? "bg-destructive/20 text-destructive" : "bg-primary/20 text-primary"} px-2 py-0.5 text-xs`}
+              className={`bg-primary/20 text-primary px-2 py-0.5 text-xs`}
             >
               {item.badge}
             </Badge>
@@ -132,13 +133,7 @@ export const Header = ({ user }: { user: authUser | null }) => {
               <DarkModeToggle />
 
               {user ? (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="hover:bg-accent/10 h-9 w-9 rounded-full p-0"
-                >
-                  <User className="h-4 w-4" />
-                </Button>
+                <UserButton />
               ) : (
                 <Button asChild size="sm" className="hidden sm:flex">
                   <Link href="/login">Login</Link>
@@ -186,12 +181,12 @@ export const Header = ({ user }: { user: authUser | null }) => {
           )}
         >
           <div className="border-border/50 bg-background/95 border-t backdrop-blur-xl">
-            <nav className="container mx-auto space-y-1 px-4 py-4">
+            <nav className="container mx-auto space-y-1 px-4 py-2">
               {navElements}
 
               {/* Mobile Login Button */}
               {!user && (
-                <div className="border-border/50 mt-4 border-t pt-4">
+                <div className="border-border/50 border-t">
                   <Button
                     asChild
                     className="w-full"

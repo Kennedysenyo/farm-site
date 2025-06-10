@@ -55,7 +55,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (state.success) {
       setFormData({ email: "", password: "", rememberMe: false });
-      router.replace(`/order?product=${searchParams}`);
+      router.replace(`/`);
     }
   }, [state, router]);
 
