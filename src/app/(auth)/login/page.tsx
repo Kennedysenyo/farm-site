@@ -171,7 +171,7 @@ export default function LoginPage() {
                     </label>
                   </div>
                   <Link
-                    href="/auth/forgot-password"
+                    href="/forgot-password"
                     className="text-primary text-sm hover:underline"
                   >
                     Forgot password?

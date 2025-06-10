@@ -94,18 +94,23 @@ export const VerifyOTP = ({
   useEffect(() => {
     const finalise = async () => {
       if (state.success) {
-        const data = JSON.parse(localStorage.getItem("signup_data")!);
-        const { firstName, lastName, email, phone, subscribeNewsletter } = data;
-        await storeUserData(
-          firstName,
-          lastName,
-          email,
-          phone,
-          subscribeNewsletter,
-        );
-        localStorage.removeItem("signup_data");
+        if (token && email) {
+          const data = JSON.parse(localStorage.getItem("signup_data")!);
+          const { firstName, lastName, email, phone, subscribeNewsletter } =
+            data;
+          await storeUserData(
+            firstName,
+            lastName,
+            email,
+            phone,
+            subscribeNewsletter,
+          );
+          localStorage.removeItem("signup_data");
 
-        router.replace("/");
+          router.replace("/");
+        } else {
+          router.push("/set-new-password");
+        }
       }
     };
     finalise();
