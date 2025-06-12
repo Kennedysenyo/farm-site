@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { MainHeader } from "@/components/MainHeader";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Start Agri Consult",
@@ -27,6 +28,7 @@ export default function RootLayout({
             <MainHeader />
             <main className="w-full flex-1">{children}</main>
           </div>
+          <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
     </html>

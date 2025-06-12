@@ -15,6 +15,7 @@ import {
   storeUserData,
   validateOTPForm,
 } from "@/actions/auth/token/verifyToken";
+import { showToast } from "@/utils/showToast";
 
 export const VerifyOTP = ({
   token,
@@ -28,7 +29,7 @@ export const VerifyOTP = ({
   const [isResending, setIsResending] = useState(false);
   const [resendResponse, setResendResponse] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(300);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
 
   // Timer countdown
   useEffect(() => {
@@ -47,6 +48,7 @@ export const VerifyOTP = ({
   const handleResendOTP = async () => {
     try {
       setIsResending(true);
+      setError("");
 
       const response = await fetch("/api/resend-otp", {
         method: "POST",
@@ -62,6 +64,11 @@ export const VerifyOTP = ({
       if (response.status === 200) {
         const data = await response.json();
         if (!data) throw new Error("An Error Occured, try again.");
+        showToast(
+          "success",
+          "OTP Resent",
+          "Check your email for the lastest OTP code",
+        );
         setResendResponse(data);
       } else {
         const data = await response.json();
@@ -105,16 +112,20 @@ export const VerifyOTP = ({
             phone,
             subscribeNewsletter,
           );
-          localStorage.removeItem("signup_data");
 
+          localStorage.removeItem("signup_data");
+          showToast("success", "Verified", "You have successfully signed up");
           router.replace("/");
         } else {
+          showToast("success", "Verified", "You can now set new password.");
           router.push("/set-new-password");
         }
+      } else {
+        setError(state.errorMessage ? state.errorMessage : "");
       }
     };
     finalise();
-  }, [state, router, email, token]);
+  }, [state, router, email, token, localStorage]);
 
   return (
     <div className="flex min-h-screen">
@@ -171,12 +182,12 @@ export const VerifyOTP = ({
                       inputMode="numeric"
                       className="text-center"
                     />
-                    {state.formError.otp && (
-                      <p className="text-xs text-red-600">
-                        {state.formError.otp}
-                      </p>
-                    )}
                   </div>
+                  {state.formError.otp && (
+                    <p className="text-xs text-red-600">
+                      {state.formError.otp}
+                    </p>
+                  )}
                 </div>
 
                 <Button

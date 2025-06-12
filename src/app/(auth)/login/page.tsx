@@ -18,6 +18,7 @@ import {
 } from "@/actions/auth/login/loginFormValidation";
 import { useRouter } from "next/navigation";
 import { FaApple, FaGoogle } from "react-icons/fa";
+import { showToast } from "@/utils/showToast";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -45,6 +46,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (state.success) {
       setFormData({ email: "", password: "", rememberMe: false });
+      showToast("success", "Logged In", "You have successfully logged in");
       router.replace(`/`);
     }
   }, [state, router]);

@@ -44,15 +44,13 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const authRoutes = ["/login", "/sign-up", "verify-otp", "forgot-password"];
+  const authRoutes = ["/login", "/sign-up", "/forgot-password"];
   const cookiesStore = await cookies();
   const isRecoveryMode = cookiesStore.get("recoveryMode")?.value === "true";
   const pathname = request.nextUrl.pathname;
 
-  if (pathname === "/set-new-password") {
-    if (!user || !isRecoveryMode) {
-      return NextResponse.redirect(new URL("/forgot-password", request.url));
-    }
+  if (pathname === "/set-new-password" && (!user || !isRecoveryMode)) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   if (user && isRecoveryMode) {
@@ -67,7 +65,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (user && authRoutes.includes(request.nextUrl.pathname)) {
-    return NextResponse.redirect("/");
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   if (

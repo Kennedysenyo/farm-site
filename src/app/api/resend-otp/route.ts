@@ -7,7 +7,7 @@ import { Ratelimit } from "@upstash/ratelimit";
 
 const ratelimit = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(3, "1h"),
+  limiter: Ratelimit.slidingWindow(3, "30m"),
 });
 
 export const POST = async (request: NextRequest) => {
@@ -19,13 +19,13 @@ export const POST = async (request: NextRequest) => {
         { status: 400 },
       );
 
-    const { success } = await ratelimit.limit(email);
-    if (!success) {
-      return NextResponse.json(
-        { error: { message: "Too many requests. Try again later." } },
-        { status: 429 },
-      );
-    }
+    // const { success } = await ratelimit.limit(email);
+    // if (!success) {
+    //   return NextResponse.json(
+    //     { error: { message: "Too many requests. Try again later." } },
+    //     { status: 429 },
+    //   );
+    // }
 
     if (token) {
       const res: string | null = await redis.get(`signup_token:${token}`);

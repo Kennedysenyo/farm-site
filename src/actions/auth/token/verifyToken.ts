@@ -50,6 +50,7 @@ export const storeUserData = async (
 
     const cookieStore = await cookies();
     if (cookieStore.has("email")) cookieStore.delete("email");
+    if (cookieStore.has("token")) cookieStore.delete("token");
   } catch (error) {
     console.error("Error storing user data:", error);
     throw error;
@@ -71,11 +72,6 @@ export const verifyOTP = async (
 
     if (error) throw error;
 
-    const cookieStore = await cookies();
-
-    if (cookieStore.has("token")) {
-      cookieStore.delete("token");
-    }
     return null;
   } catch (error) {
     return handleError(error);

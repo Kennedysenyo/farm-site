@@ -15,6 +15,7 @@ import {
   FormState,
   validateSetNewPassword,
 } from "@/actions/auth/set-new-password/setNewPassword";
+import { showToast } from "@/utils/showToast";
 
 export const SetNewPassword = ({ email }: { email?: string }) => {
   const router = useRouter();
@@ -53,9 +54,14 @@ export const SetNewPassword = ({ email }: { email?: string }) => {
     const checkSuccess = async () => {
       if (state.success) {
         setFormData({ password: "", confirmPassword: "" });
-        await logOut();
+        showToast(
+          "success",
+          "Password Changed",
+          "You have successfully changed your password",
+        );
       }
     };
+    router.replace("/login");
     checkSuccess();
   }, [state, router]);
   return (

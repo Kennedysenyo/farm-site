@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { isCorrectFormat } from "@/utils/format-checker";
 import { handleError } from "@/utils/handleError";
 import { cookies } from "next/headers";
+import { logOut } from "../log-out/logout";
 
 type FormErrors = {
   password?: string;
@@ -21,6 +22,7 @@ const updatePassword = async (password: string): Promise<string | null> => {
     const { auth } = await createClient();
     const { error } = await auth.updateUser({ password });
     if (error) throw error;
+    await logOut();
     return null;
   } catch (error) {
     return handleError(error);
@@ -51,6 +53,7 @@ export const validateSetNewPassword = async (
 
   const cookieStore = await cookies();
   if (cookieStore.has("email")) cookieStore.delete("email");
+  if (cookieStore.has("recoveryMode")) cookieStore.delete("recoveryMode");
 
   return { errors: {}, success: true, errorMessage: null };
 };

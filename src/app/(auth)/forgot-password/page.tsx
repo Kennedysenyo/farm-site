@@ -14,11 +14,11 @@ import {
   FormState,
   validateForgotPassword,
 } from "@/actions/auth/forgot-password/forgotPassword";
+import { showToast } from "@/utils/showToast";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [error, setError] = useState<string | null>(null);
 
   const initialState: FormState = {
     error: {},
@@ -29,13 +29,11 @@ export default function ForgotPasswordPage() {
     validateForgotPassword,
     initialState,
   );
-  useEffect(() => {
-    setError(state.errorMessage);
-  }, [state.errorMessage]);
 
   useEffect(() => {
     if (state.success) {
       setEmail("");
+      showToast("success", "OTP Sent", "Check your email for OTP code");
       router.push("/verify-otp");
     }
   }, [router, state]);
@@ -69,9 +67,9 @@ export default function ForgotPasswordPage() {
                 No worries! Enter your email address and we'll send you a
                 verification code to reset your password.
               </p>
-              {error && (
+              {state.errorMessage && (
                 <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
-                  {error}
+                  {state.errorMessage}
                 </div>
               )}
             </CardHeader>
@@ -131,7 +129,7 @@ export default function ForgotPasswordPage() {
                 <div className="text-muted-foreground text-sm">
                   Don't have an account?{" "}
                   <Link
-                    href="/signup"
+                    href="/sign-up"
                     className="text-primary font-medium hover:underline"
                   >
                     Sign up here
