@@ -15,10 +15,12 @@ import {
   validateForgotPassword,
 } from "@/actions/auth/forgot-password/forgotPassword";
 import { showToast } from "@/utils/showToast";
+import { useIsOnline } from "@/hooks/useIsOnline";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const isOnline = useIsOnline();
 
   const initialState: FormState = {
     error: {},
@@ -69,7 +71,11 @@ export default function ForgotPasswordPage() {
               </p>
               {state.errorMessage && (
                 <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
-                  {state.errorMessage}
+                  {isOnline
+                    ? state.errorMessage === "fetch failed"
+                      ? "An error occurred. Try again"
+                      : state.errorMessage
+                    : "Connect to internet"}
                 </div>
               )}
             </CardHeader>

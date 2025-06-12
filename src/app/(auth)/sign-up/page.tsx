@@ -185,7 +185,11 @@ export default function SignupPage() {
               <form action={formAction} className="space-y-4">
                 {state.errorMessage && (
                   <div className="rounded-md border border-red-200 bg-red-50 p-3 text-center text-sm text-red-600">
-                    {!isOnline ? state.errorMessage : "Connect to internet"}
+                    {isOnline
+                      ? state.errorMessage === "fetch failed"
+                        ? "An error occurred. Try again"
+                        : state.errorMessage
+                      : "Connect to internet"}
                   </div>
                 )}
 

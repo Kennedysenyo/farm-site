@@ -16,6 +16,7 @@ import {
   validateSetNewPassword,
 } from "@/actions/auth/set-new-password/setNewPassword";
 import { showToast } from "@/utils/showToast";
+import { useIsOnline } from "@/hooks/useIsOnline";
 
 export const SetNewPassword = ({ email }: { email?: string }) => {
   const router = useRouter();
@@ -26,6 +27,7 @@ export const SetNewPassword = ({ email }: { email?: string }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const isOnline = useIsOnline();
 
   // Redirect if no email
   useEffect(() => {
@@ -96,7 +98,11 @@ export const SetNewPassword = ({ email }: { email?: string }) => {
               </p>
               {state.errorMessage && (
                 <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
-                  {state.errorMessage}
+                  {isOnline
+                    ? state.errorMessage === "fetch failed"
+                      ? "An error occurred. Try again"
+                      : state.errorMessage
+                    : "Connect to internet"}
                 </div>
               )}
             </CardHeader>

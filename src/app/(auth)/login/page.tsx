@@ -19,6 +19,7 @@ import {
 import { useRouter } from "next/navigation";
 import { FaApple, FaGoogle } from "react-icons/fa";
 import { showToast } from "@/utils/showToast";
+import { useIsOnline } from "@/hooks/useIsOnline";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -28,6 +29,7 @@ export default function LoginPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const isOnline = useIsOnline();
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -81,7 +83,11 @@ export default function LoginPage() {
               <form action={formAction} className="space-y-6">
                 {state.errorMessage && (
                   <div className="text-destructive rounded-md border border-red-200 bg-red-50 p-3 text-center text-sm">
-                    {state.errorMessage}
+                    {isOnline
+                      ? state.errorMessage === "fetch failed"
+                        ? "An error occurred. Try again"
+                        : state.errorMessage
+                      : "Connect to internet"}
                   </div>
                 )}
 

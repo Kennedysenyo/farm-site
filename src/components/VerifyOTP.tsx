@@ -16,6 +16,7 @@ import {
   validateOTPForm,
 } from "@/actions/auth/token/verifyToken";
 import { showToast } from "@/utils/showToast";
+import { useIsOnline } from "@/hooks/useIsOnline";
 
 export const VerifyOTP = ({
   token,
@@ -30,6 +31,7 @@ export const VerifyOTP = ({
   const [resendResponse, setResendResponse] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(300);
   const [error, setError] = useState<string>("");
+  const isOnline = useIsOnline();
 
   // Timer countdown
   useEffect(() => {
@@ -164,9 +166,11 @@ export const VerifyOTP = ({
               <form action={formAction} className="space-y-6">
                 {error && (
                   <div className="rounded-md border border-red-200 bg-red-50 p-3 text-center text-sm text-red-600">
-                    {error === "Invalid token"
-                      ? "An error occured, try again"
-                      : error}
+                    {isOnline
+                      ? error === "Invalid token"
+                        ? "An error occured, try again"
+                        : error
+                      : "Connect to internet"}
                   </div>
                 )}
 

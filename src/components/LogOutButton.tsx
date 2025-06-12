@@ -8,7 +8,13 @@ export const LogOutButton = () => {
   const handleLogOutClick = async () => {
     const errorMessage = await logOut();
     if (errorMessage) {
-      showToast("error", "Error!", errorMessage);
+      showToast(
+        "error",
+        "Error!",
+        errorMessage === "fetch failed"
+          ? "Failed to log out. Try again"
+          : errorMessage,
+      );
     } else if (!errorMessage) {
       showToast("success", "Logged Out", "You have successfully signed out.");
     }
