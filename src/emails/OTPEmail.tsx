@@ -5,21 +5,44 @@ import {
   Body,
   Container,
   Text,
+  Img,
 } from "@react-email/components";
 
 type OTPEmailProps = {
+  type: "recovery" | "signup";
   name?: string;
   otp: string;
 };
 
-export default function OTPEmail({ name, otp }: OTPEmailProps) {
+export default function OTPEmail({
+  name = "James Bond",
+  otp = "005667",
+}: OTPEmailProps) {
   return (
     <Html>
       <Head />
       <Preview>Your OTP Code for StartAgri</Preview>
-      <Body
-        style={{ fontFamily: "Arial, sans-serif", backgroundColor: "#f9fafb" }}
-      >
+      <Body style={{ fontFamily: "Arial, sans-serif" }}>
+        <Container
+          style={{
+            display: "flex",
+            padding: "20px",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "green",
+          }}
+        >
+          <Img alt="logo" src="/img/logo.png" />
+          <Text
+            style={{
+              color: "white",
+              fontSize: "2rem",
+              textAlign: "center",
+            }}
+          >
+            StartAgri
+          </Text>
+        </Container>
         <Container
           style={{
             padding: "20px",
@@ -35,18 +58,31 @@ export default function OTPEmail({ name, otp }: OTPEmailProps) {
           <Text style={{ fontSize: "16px", color: "#111827" }}>
             Your one-time verification code is:
           </Text>
-          <Text
+          <Container
             style={{
-              fontSize: "32px",
-              fontWeight: "bold",
-              color: "#10b981",
-              margin: "16px 0",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "30px",
+              border: "2px solid green",
+              borderRadius: "1rem",
+              maxWidth: "60%",
+              backgroundColor: "lightcyan",
             }}
           >
-            {otp}
-          </Text>
+            <Text
+              style={{
+                fontSize: "32px",
+                fontWeight: "bold",
+                color: "#10b981",
+                margin: "16px 0",
+              }}
+            >
+              {otp}
+            </Text>
+          </Container>
           <Text style={{ fontSize: "14px", color: "#6b7280" }}>
-            This code will expire in 5 minutes. If you didn’t request this,
+            This code will expire in 6 minutes. If you didn’t request this,
             please ignore this email.
           </Text>
           <Text

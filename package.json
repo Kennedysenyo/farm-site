@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "email:dev": "email build --dir=./src/emails"
+    "email": "email dev --dir src/emails"
   },
   "dependencies": {
     "@paystack/inline-js": "^2.22.4",
