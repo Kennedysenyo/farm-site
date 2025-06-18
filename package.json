@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "email:dev": "email build --dir=./src/emails"
   },
   "dependencies": {
     "@paystack/inline-js": "^2.22.4",
@@ -34,7 +35,7 @@
     "react-dom": "^19.0.0",
     "react-email": "^4.0.16",
     "react-icons": "^5.5.0",
-    "resend": "^4.5.2",
+    "resend": "^4.6.0",
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.0"
   },

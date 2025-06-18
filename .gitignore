@@ -10,12 +10,16 @@
 !.yarn/releases
 !.yarn/versions
 
+#React Email generated preview app
+.react-email
+
 # testing
 /coverage
 
 # next.js
 /.next/
 /out/
+dist/
 
 # production
 /build
