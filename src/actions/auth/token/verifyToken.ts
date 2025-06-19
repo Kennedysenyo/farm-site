@@ -5,6 +5,7 @@ import { users } from "@/db/schema";
 import { createClient } from "@/lib/supabase/server";
 import { handleError } from "@/utils/handleError";
 import { cookies } from "next/headers";
+import { sendWelcomeEmail } from "../emails/emails";
 
 type MissingField = {
   otp?: string;
@@ -47,6 +48,9 @@ export const storeUserData = async (
       phone,
       subscribeNewsletter,
     });
+
+    const response = await sendWelcomeEmail(email, firstName);
+    if (response) console.error(response);
 
     const cookieStore = await cookies();
     if (cookieStore.has("email")) cookieStore.delete("email");

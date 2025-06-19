@@ -10,14 +10,11 @@ import {
 
 type OTPEmailProps = {
   type: "recovery" | "signup";
-  name?: string;
+
   otp: string;
 };
 
-export default function OTPEmail({
-  name = "James Bond",
-  otp = "005667",
-}: OTPEmailProps) {
+export default function OTPEmail({ type, otp }: OTPEmailProps) {
   return (
     <Html>
       <Head />
@@ -52,9 +49,7 @@ export default function OTPEmail({
             margin: "0 auto",
           }}
         >
-          <Text style={{ fontSize: "16px", color: "#111827" }}>
-            {name ? `Hi ${name},` : "Hello,"}
-          </Text>
+          <Text style={{ fontSize: "16px", color: "#111827" }}>Hi there,</Text>
           <Text style={{ fontSize: "16px", color: "#111827" }}>
             Your one-time verification code is:
           </Text>
@@ -63,7 +58,7 @@ export default function OTPEmail({
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              padding: "30px",
+              padding: "20px",
               border: "2px solid green",
               borderRadius: "1rem",
               maxWidth: "60%",
@@ -82,8 +77,10 @@ export default function OTPEmail({
             </Text>
           </Container>
           <Text style={{ fontSize: "14px", color: "#6b7280" }}>
-            This code will expire in 6 minutes. If you didn’t request this,
-            please ignore this email.
+            This code will expire in 6 minutes.{" "}
+            {type === "recovery"
+              ? "If you didn’t request this, please ignore this email."
+              : "Enter the one time verification code to complete your signup"}
           </Text>
           <Text
             style={{ fontSize: "14px", color: "#6b7280", marginTop: "24px" }}
