@@ -5,6 +5,7 @@ import { isCorrectFormat } from "@/utils/format-checker";
 import { handleError } from "@/utils/handleError";
 import { cookies } from "next/headers";
 import { logOut } from "../log-out/logout";
+import { sendPasswordChangeEmail } from "../emails/emails";
 
 type FormErrors = {
   password?: string;
@@ -20,9 +21,18 @@ export type FormState = {
 const updatePassword = async (password: string): Promise<string | null> => {
   try {
     const { auth } = await createClient();
+
+    const email = (await auth.getUser()).data.user?.email;
+    if (!email) throw new Error("User Invalid");
+
     const { error } = await auth.updateUser({ password });
     if (error) throw error;
+
+    const response = await sendPasswordChangeEmail(email!);
+    if (response) console.error(response);
+
     await logOut();
+
     return null;
   } catch (error) {
     return handleError(error);

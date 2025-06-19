@@ -1,6 +1,7 @@
 "use server";
 
 import OTPEmail from "@/emails/OTPEmail";
+import PasswordChangeEmail from "@/emails/PasswordChanged";
 import WelcomeEmail from "@/emails/WelcomeEmail";
 import { handleError } from "@/utils/handleError";
 import { Resend } from "resend";
@@ -39,6 +40,24 @@ export const sendOTPEmail = async (
       to: email,
       subject: "OPT Verification",
       react: OTPEmail({ type, otp }),
+    });
+    if (!data || error) throw error;
+    return null;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+/**Send Email after password change */
+export const sendPasswordChangeEmail = async (
+  email: string,
+): Promise<string | null> => {
+  try {
+    const { data, error } = await resend.emails.send({
+      from: "StartAgri <noreply@kencoding.dev>",
+      to: email,
+      subject: "Your Password Changed",
+      react: PasswordChangeEmail(),
     });
     if (!data || error) throw error;
     return null;

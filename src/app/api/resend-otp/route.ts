@@ -4,6 +4,7 @@ import { caesarCrypt } from "@/utils/caesarCrypt";
 import { isCorrectFormat } from "@/utils/format-checker";
 import { NextRequest, NextResponse } from "next/server";
 import { Ratelimit } from "@upstash/ratelimit";
+import { sendOTPEmail } from "@/actions/auth/emails/emails";
 
 const ratelimit = new Ratelimit({
   redis,
@@ -52,7 +53,11 @@ export const POST = async (request: NextRequest) => {
 
       if (!data || error) throw error;
       const otp = data.properties.email_otp;
-      console.log("Signup Code Resend:", otp);
+
+      const response = await sendOTPEmail("signup", email, otp);
+      if (response) console.error(error);
+
+      // console.log("Signup Code Resend:", otp);
       return NextResponse.json("Code resend successfully", { status: 200 });
     }
 
@@ -63,8 +68,13 @@ export const POST = async (request: NextRequest) => {
     });
 
     if (!data || error) throw error;
+
     const otp = data.properties.email_otp;
-    console.log("Recovery Code Resend:", otp);
+    // console.log("Recovery Code Resend:", otp);
+
+    const response = await sendOTPEmail("recovery", email, otp);
+    if (response) console.error(response);
+
     return NextResponse.json("Code resend successfully", { status: 200 });
   } catch (error) {
     if (error instanceof Error) {

@@ -8,11 +8,7 @@ import {
   Text,
 } from "@react-email/components";
 
-export default function WelcomeEmail({
-  name = "James Bond",
-}: {
-  name: string;
-}) {
+export default function WelcomeEmail({ name }: { name: string }) {
   return (
     <Html>
       <Head />

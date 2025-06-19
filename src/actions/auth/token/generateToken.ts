@@ -20,7 +20,7 @@ export const generateToken = async (
       if (error) throw error;
 
       const otp = data.properties.email_otp;
-      console.log("Signup OTP", otp);
+      // console.log("Signup OTP", otp);
 
       const response = await sendOTPEmail("signup", email, otp);
       if (response) console.error(response);
@@ -33,7 +33,7 @@ export const generateToken = async (
       if (error) throw error;
 
       const otp = data.properties.email_otp;
-      console.log("Recovery OTP", otp);
+      // console.log("Recovery OTP", otp);
 
       const response = await sendOTPEmail("recovery", email, otp);
       if (response) console.error(response);
