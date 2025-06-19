@@ -32,7 +32,6 @@ export const sendOTPEmail = async (
   type: "signup" | "recovery",
   email: string,
   otp: string,
-  name?: string,
 ): Promise<string | null> => {
   try {
     const { data, error } = await resend.emails.send({
