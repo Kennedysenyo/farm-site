@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { handleError } from "@/utils/handleError";
+
 import { redirect } from "next/navigation";
 
 type ProviderType = "google" | "apple";

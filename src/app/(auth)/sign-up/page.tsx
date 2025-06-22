@@ -26,7 +26,7 @@ import {
   validateSignUp,
 } from "@/actions/auth/sign-up/signupFormValidation";
 import { useIsOnline } from "@/hooks/useIsOnline";
-import { sign } from "node:crypto";
+
 import { signInWithGoogle } from "@/actions/auth/social-login/providers/provider";
 
 export default function SignupPage() {
