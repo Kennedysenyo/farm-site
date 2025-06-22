@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/server";
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
 
+  console.log(origin);
+
   const code = searchParams.get("code");
 
   let next = searchParams.get("next") ?? "/";
