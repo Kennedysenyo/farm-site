@@ -26,6 +26,8 @@ import {
   validateSignUp,
 } from "@/actions/auth/sign-up/signupFormValidation";
 import { useIsOnline } from "@/hooks/useIsOnline";
+import { sign } from "node:crypto";
+import { signInWithGoogle } from "@/actions/auth/social-login/providers/provider";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -43,6 +45,12 @@ export default function SignupPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const isOnline = useIsOnline();
+
+  const handleSocialLogin = async (provider: "google" | "apple") => {
+    if (provider === "google") {
+      await signInWithGoogle();
+    }
+  };
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -154,6 +162,7 @@ export default function SignupPage() {
                   variant="outline"
                   className="w-full"
                   size="lg"
+                  onClick={() => handleSocialLogin("google")}
                 >
                   <FaGoogle className="mr-2 h-5 w-5" />
                   Continue with Google
