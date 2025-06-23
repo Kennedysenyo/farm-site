@@ -12,4 +12,5 @@ export const deleteCookie = async (name: string) => {
   if (cookiesStore.has(name)) {
     cookiesStore.delete(name);
   }
+  return true;
 };

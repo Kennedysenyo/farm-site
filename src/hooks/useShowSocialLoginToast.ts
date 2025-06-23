@@ -15,7 +15,8 @@ export const useShowSocialLoginToast = () => {
         showToast("success", "Signed In", "You have successfully signed in");
       }
 
-      await deleteCookie("signin-success");
+      const response = await deleteCookie("signin-success");
+      setIsSignIn(!response);
     };
 
     showSignInToast();
