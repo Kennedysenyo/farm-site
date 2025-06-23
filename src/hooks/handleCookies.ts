@@ -1,16 +1,9 @@
-"use server";
-
-import { cookies } from "next/headers";
-
-export const hasCookie = async (name: string): Promise<boolean> => {
-  const cookiesStore = await cookies();
-  return cookiesStore.get(name)?.value === "true";
+export const hasCookie = (name: string): boolean => {
+  return document.cookie
+    .split(";")
+    .some((cookie) => cookie.trim().startsWith(`${name}=true`));
 };
 
-export const deleteCookie = async (name: string) => {
-  const cookiesStore = await cookies();
-  if (cookiesStore.has(name)) {
-    cookiesStore.delete(name);
-  }
-  return true;
+export const deleteCookie = (name: string): void => {
+  document.cookie = `${name}=; Max-Age=0; path=/`;
 };
