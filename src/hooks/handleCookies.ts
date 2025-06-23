@@ -4,7 +4,7 @@ export const hasCookie = (name: string): boolean => {
     document.cookie
       .split(";")
       .map((c) => c.trim())
-      .includes("signin-success=true"),
+      .includes(`${name}=true`),
   );
   return document.cookie
     .split(";")
