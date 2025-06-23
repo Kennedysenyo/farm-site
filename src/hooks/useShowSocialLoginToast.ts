@@ -16,6 +16,6 @@ export const useShowSocialLoginToast = () => {
     };
 
     showSignInToast();
+    deleteCookie("signin-success");
   }, []);
-  deleteCookie("signin-success");
 };

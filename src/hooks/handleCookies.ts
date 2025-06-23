@@ -1,11 +1,4 @@
 export const hasCookie = (name: string): boolean => {
-  console.log(
-    "The cookie was found?",
-    document.cookie
-      .split(";")
-      .map((c) => c.trim())
-      .includes(`${name}=true`),
-  );
   return document.cookie
     .split(";")
     .map((c) => c.trim())
