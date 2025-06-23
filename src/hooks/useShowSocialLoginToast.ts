@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { deleteCookie, hasCookie } from "./handleCookies";
 import { showToast } from "@/utils/showToast";
 
