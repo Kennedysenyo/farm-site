@@ -6,12 +6,13 @@ import { deleteCookie, hasCookie } from "./handleCookies";
 
 export const useShowSocialLoginToast = () => {
   useEffect(() => {
+    console.log("useSocialLoginToast is running...");
     const showSignInToast = async () => {
-      const signedIn = await hasCookie("signin-success");
+      const signedIn = hasCookie("signin-success");
 
       if (signedIn) {
         showToast("success", "Signed In", "You have successfully signed in");
-        await deleteCookie("signin-success");
+        deleteCookie("signin-success");
       }
     };
 
