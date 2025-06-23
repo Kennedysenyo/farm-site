@@ -35,7 +35,8 @@ export const validateForgotPassword = async (
   const cookiesStore = await cookies();
   cookiesStore.set("email", email, {
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
     maxAge: 15 * 60,
     path: "/",
   });
