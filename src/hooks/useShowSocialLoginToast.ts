@@ -1,17 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { hasCookie } from "./handleCookies";
+import { deleteCookie, hasCookie } from "./handleCookies";
+import { showToast } from "@/utils/showToast";
 
 export const useShowSocialLoginToast = () => {
-  const [cookieExist, setCookieExist] = useState(false);
   useEffect(() => {
     console.log("useSocialLoginToast is running...");
     const showSignInToast = async () => {
-      setCookieExist(hasCookie("signin-success"));
+      const cookieExist = hasCookie("signin-success");
+
+      if (cookieExist) {
+        showToast("success", "Signed In", "You have successfully signed in");
+      }
     };
 
     showSignInToast();
   }, []);
-  return cookieExist;
+  deleteCookie("signin-success");
 };
