@@ -2,7 +2,7 @@ export const hasCookie = (name: string): boolean => {
   return document.cookie
     .split(";")
     .map((c) => c.trim())
-    .includes("signin-success=true");
+    .includes(`${name}=true`);
 };
 
 export const deleteCookie = (name: string): void => {
