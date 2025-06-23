@@ -1,8 +1,8 @@
 export const hasCookie = (name: string): boolean => {
-  console.log(document.cookie);
-  return document.cookie.includes(name);
-  // .split(";")
-  // .some((cookie) => cookie.trim().startsWith(`${name}=true`));
+  return document.cookie
+    .split(";")
+    .map((c) => c.trim())
+    .includes("signin-success=true");
 };
 
 export const deleteCookie = (name: string): void => {
