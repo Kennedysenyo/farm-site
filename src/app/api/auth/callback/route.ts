@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
 
-  console.log(origin);
+  console.log("This is the origin", origin);
 
   const code = searchParams.get("code");
 
@@ -19,6 +19,7 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
       const forwardedHost = request.headers.get("x-forwarded-host");
+      console.log("this is the forwareded host", forwardedHost);
       const isLocalEnv = process.env.NODE_ENV === "development";
       if (isLocalEnv) {
         return NextResponse.redirect(`${origin}${next}`);
