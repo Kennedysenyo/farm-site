@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { db } from "@/db";
 import { Users, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { cookies } from "next/headers";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -45,6 +46,15 @@ export async function GET(request: Request) {
           });
         }
       }
+
+      const cookiesStore = await cookies();
+      cookiesStore.set("login-success", "true", {
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === "production",
+        maxAge: 15 * 60,
+        path: "/",
+      });
+
       const forwardedHost = request.headers.get("x-forwarded-host");
       console.log("this is the forwareded host", forwardedHost);
       const isLocalEnv = process.env.NODE_ENV === "development";
