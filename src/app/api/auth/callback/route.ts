@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { createClient } from "@/lib/supabase/server";
+import { db } from "@/db";
+import { Users, users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -18,6 +21,27 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const id = user.id;
+        const userExist: Users[] = await db
+          .select()
+          .from(users)
+          .where(eq(users.id, id));
+
+        if (!userExist) {
+          await db.insert(users).values({
+            id,
+            firstName: user.user_metadata.firstName,
+            lastName: user.user_metadata.lastName,
+            email: user.user_metadata.email,
+            phone: user.user_metadata.phone,
+          });
+        }
+      }
       const forwardedHost = request.headers.get("x-forwarded-host");
       console.log("this is the forwareded host", forwardedHost);
       const isLocalEnv = process.env.NODE_ENV === "development";
