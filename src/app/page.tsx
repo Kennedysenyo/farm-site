@@ -10,7 +10,7 @@ import { ProcessSection } from "@/components/ProcessSection";
 import { ProductsSection } from "@/components/Products";
 import { ServicesSection } from "@/components/Services";
 import { TestimonialsSection } from "@/components/Testimonials";
-import { deleteCookie } from "@/hooks/handleCookies";
+
 import { useShowSocialLoginToast } from "@/hooks/useShowSocialLoginToast";
 import { showToast } from "@/utils/showToast";
 
