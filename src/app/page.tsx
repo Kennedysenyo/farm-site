@@ -19,7 +19,7 @@ export default function Home() {
   if (isSignIn) {
     showToast("success", "Signed In", "You have successfully signed in");
   }
-  deleteCookie("signin-success");
+  // deleteCookie("signin-success");
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Hero />
