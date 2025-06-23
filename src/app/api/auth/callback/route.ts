@@ -48,7 +48,7 @@ export async function GET(request: Request) {
       }
 
       const cookiesStore = await cookies();
-      cookiesStore.set("login-success", "true", {
+      cookiesStore.set("signin-success", "true", {
         httpOnly: true,
         sameSite: process.env.NODE_ENV === "production",
         maxAge: 15 * 60,
