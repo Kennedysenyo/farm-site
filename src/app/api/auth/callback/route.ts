@@ -35,8 +35,11 @@ export async function GET(request: Request) {
         if (userExist.length === 0) {
           await db.insert(users).values({
             id,
-            firstName: user.user_metadata.firstName ?? "",
-            lastName: user.user_metadata.lastName ?? "",
+            firstName: user.user_metadata.name.split(" ")[0] ?? "",
+            lastName:
+              user.user_metadata.name.split(" ")[
+                user.user_metadata.name.split(" ").length - 1
+              ] ?? "",
             email: user.user_metadata.email ?? "",
             phone: user.user_metadata.phone ?? "",
           });
