@@ -16,7 +16,7 @@ export const users = pgTable("users", {
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   email: text("email").unique().notNull(),
-  phone: text("phone").notNull(),
+  phone: text("phone"),
   subscribeNewsletter: boolean("subscribe_newsletter"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
