@@ -32,7 +32,7 @@ export async function GET(request: Request) {
           .from(users)
           .where(eq(users.id, id));
 
-        if (!userExist[0]) {
+        if (userExist.length === 0) {
           await db.insert(users).values({
             id,
             firstName: user.user_metadata.firstName,
