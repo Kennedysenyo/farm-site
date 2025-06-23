@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-export const getCookie = async (name: string): Promise<boolean> => {
+export const hasCookie = async (name: string): Promise<boolean> => {
   const cookiesStore = await cookies();
   return cookiesStore.get(name)?.value === "true";
 };
