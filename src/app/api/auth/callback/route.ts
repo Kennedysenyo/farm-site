@@ -35,10 +35,10 @@ export async function GET(request: Request) {
         if (userExist.length === 0) {
           await db.insert(users).values({
             id,
-            firstName: user.user_metadata.firstName,
-            lastName: user.user_metadata.lastName,
-            email: user.user_metadata.email,
-            phone: user.user_metadata.phone,
+            firstName: user.user_metadata.firstName ?? "",
+            lastName: user.user_metadata.lastName ?? "",
+            email: user.user_metadata.email ?? "",
+            phone: user.user_metadata.phone ?? "",
           });
         }
       }
