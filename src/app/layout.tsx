@@ -3,7 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { MainHeader } from "@/components/MainHeader";
 import { Toaster } from "@/components/ui/sonner";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 export const metadata: Metadata = {
   title: "Start Agri Consult",
   description:
@@ -26,7 +26,10 @@ export default function RootLayout({
         >
           <div className="flex min-h-screen flex-col">
             <MainHeader />
-            <main className="w-full flex-1">{children}</main>
+            <main className="w-full flex-1">
+              {children}
+              <SpeedInsights />
+            </main>
           </div>
           <Toaster position="bottom-right" />
         </ThemeProvider>
