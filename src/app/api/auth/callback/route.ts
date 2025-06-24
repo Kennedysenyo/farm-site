@@ -5,6 +5,8 @@ import { db } from "@/db";
 import { Users, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
+import { sendWelcomeEmail } from "@/actions/auth/emails/emails";
+import { isCorrectFormat } from "@/utils/format-checker";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -44,6 +46,15 @@ export async function GET(request: Request) {
             email: user.user_metadata.email ?? "",
             phone: user.user_metadata.phone ?? "",
           });
+
+          if (isCorrectFormat("email", user?.user_metadata.email)) {
+            const response = await sendWelcomeEmail(
+              user?.user_metadata.email,
+              user?.user_metadata.name,
+            );
+
+            if (response) console.error(response);
+          }
         }
       }
 
