@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
+
 import { cookies } from "next/headers";
-import { NextResponse, type NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
   return await updateSession(request);
@@ -68,11 +69,15 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (
-    (!user && pathname === "/order") ||
-    request.nextUrl.pathname === "/admin"
-  ) {
-    return NextResponse.redirect(new URL("/", request.url));
+  if (!user && (pathname === "/order" || pathname === "/admin")) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  if (user && pathname === "/admin") {
+    if (user.user_metadata.role !== "admin") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+    return supabaseResponse;
   }
 
   if (user && authRoutes.includes(pathname)) {

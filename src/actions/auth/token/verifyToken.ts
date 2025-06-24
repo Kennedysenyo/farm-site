@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { handleError } from "@/utils/handleError";
 import { cookies } from "next/headers";
 import { sendWelcomeEmail } from "../emails/emails";
+import { eq } from "drizzle-orm";
 
 type MissingField = {
   otp?: string;
@@ -40,14 +41,33 @@ export const storeUserData = async (
       },
     });
 
-    await db.insert(users).values({
-      id: user.user.id,
-      firstName,
-      lastName,
-      email,
-      phone,
-      subscribeNewsletter,
-    });
+    const userExists = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email));
+
+    if (!userExists) {
+      await db.insert(users).values({
+        id: user.user.id,
+        firstName,
+        lastName,
+        email,
+        phone,
+        subscribeNewsletter,
+      });
+    } else if (userExists) {
+      await db
+        .update(users)
+        .set({
+          id: user.user.id,
+          firstName,
+          lastName,
+          email,
+          phone,
+          subscribeNewsletter,
+        })
+        .where(eq(users.email, email));
+    }
 
     const response = await sendWelcomeEmail(email, firstName);
     if (response) console.error(response);
