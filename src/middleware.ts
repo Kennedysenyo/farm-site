@@ -2,10 +2,6 @@ import { createServerClient } from "@supabase/ssr";
 
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-// import { isAdmin } from "./utils/is-admin";
-import { db } from "./db";
-import { users } from "./db/schema";
-import { eq } from "drizzle-orm";
 
 export async function middleware(request: NextRequest) {
   return await updateSession(request);
