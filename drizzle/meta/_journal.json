@@ -57,6 +57,13 @@
       "when": 1750678264657,
       "tag": "0007_familiar_spitfire",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1750806102235,
+      "tag": "0008_dear_vulcan",
+      "breakpoints": true
     }
   ]
 }
