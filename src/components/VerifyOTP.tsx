@@ -127,7 +127,7 @@ export const VerifyOTP = ({
       }
     };
     finalise();
-  }, [state, router, email, token, localStorage]);
+  }, [state, router, email, token]);
 
   return (
     <div className="flex min-h-screen">

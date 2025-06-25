@@ -2,6 +2,10 @@ import { createServerClient } from "@supabase/ssr";
 
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+// import { isAdmin } from "./utils/is-admin";
+import { db } from "./db";
+import { users } from "./db/schema";
+import { eq } from "drizzle-orm";
 
 export async function middleware(request: NextRequest) {
   return await updateSession(request);
@@ -65,16 +69,13 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  if (user && authRoutes.includes(request.nextUrl.pathname)) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  if (user && pathname === "/dashboard") {
+    const dbUser = await db
+      .select({ role: users.role })
+      .from(users)
+      .where(eq(users.id, user.id));
 
-  if (!user && (pathname === "/order" || pathname === "/admin")) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  if (user && pathname === "/admin") {
-    if (user.user_metadata.role !== "admin") {
+    if (!dbUser[0] || dbUser[0].role !== "admin") {
       return NextResponse.redirect(new URL("/", request.url));
     }
     return supabaseResponse;
@@ -83,5 +84,10 @@ export async function updateSession(request: NextRequest) {
   if (user && authRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL("/", request.url));
   }
+
+  if (!user && (pathname === "/order" || pathname === "/dashboard")) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
   return supabaseResponse;
 }
