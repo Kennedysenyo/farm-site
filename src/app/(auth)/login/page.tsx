@@ -20,7 +20,10 @@ import { useRouter } from "next/navigation";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { showToast } from "@/utils/showToast";
 import { useIsOnline } from "@/hooks/useIsOnline";
-import { signInWithGoogle } from "@/actions/auth/social-login/providers/provider";
+import {
+  signInWithFacebook,
+  signInWithGoogle,
+} from "@/actions/auth/social-login/providers/provider";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -36,9 +39,11 @@ export default function LoginPage() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSocialLogin = async (provider: "google" | "apple") => {
+  const handleSocialLogin = async (provider: "google" | "facebook") => {
     if (provider === "google") {
       await signInWithGoogle();
+    } else {
+      await signInWithFacebook();
     }
   };
 
@@ -233,9 +238,10 @@ export default function LoginPage() {
                   variant="outline"
                   className="w-full"
                   size="lg"
+                  onClick={() => handleSocialLogin("facebook")}
                 >
                   <FaFacebook className="mr-2 h-5 w-5" />
-                  Continue with Apple
+                  Continue with Facebook
                 </Button>
               </div>
 

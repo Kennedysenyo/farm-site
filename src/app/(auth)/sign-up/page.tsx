@@ -20,14 +20,17 @@ import {
   ArrowRight,
   Loader,
 } from "lucide-react";
-import { FaApple, FaGoogle } from "react-icons/fa";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
 import {
   SignupFormState,
   validateSignUp,
 } from "@/actions/auth/sign-up/signupFormValidation";
 import { useIsOnline } from "@/hooks/useIsOnline";
 
-import { signInWithGoogle } from "@/actions/auth/social-login/providers/provider";
+import {
+  signInWithFacebook,
+  signInWithGoogle,
+} from "@/actions/auth/social-login/providers/provider";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -46,9 +49,11 @@ export default function SignupPage() {
 
   const isOnline = useIsOnline();
 
-  const handleSocialLogin = async (provider: "google" | "apple") => {
+  const handleSocialLogin = async (provider: "google" | "facebook") => {
     if (provider === "google") {
       await signInWithGoogle();
+    } else {
+      await signInWithFacebook();
     }
   };
 
@@ -173,9 +178,10 @@ export default function SignupPage() {
                   variant="outline"
                   className="w-full"
                   size="lg"
+                  onClick={() => handleSocialLogin("facebook")}
                 >
-                  <FaApple className="mr-2 h-5 w-5" />
-                  Continue with Apple
+                  <FaFacebook className="mr-2 h-5 w-5" />
+                  Continue with Facebook
                 </Button>
               </div>
 
