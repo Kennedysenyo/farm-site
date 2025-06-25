@@ -29,11 +29,16 @@ export async function GET(request: Request) {
       } = await supabase.auth.getUser();
 
       if (user) {
-        const id = user.id;
-        const userExist: Users[] = await db
-          .select()
-          .from(users)
-          .where(eq(users.id, id));
+        const { id, email } = user;
+        let userExist: Users[] = [];
+        if (email) {
+          userExist = await db
+            .select()
+            .from(users)
+            .where(eq(users.email, email));
+        } else {
+          userExist = await db.select().from(users).where(eq(users.id, id!));
+        }
 
         if (userExist.length === 0) {
           await db.insert(users).values({
