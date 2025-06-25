@@ -17,7 +17,7 @@ import {
   validateLogin,
 } from "@/actions/auth/login/loginFormValidation";
 import { useRouter } from "next/navigation";
-import { FaApple, FaGoogle } from "react-icons/fa";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { showToast } from "@/utils/showToast";
 import { useIsOnline } from "@/hooks/useIsOnline";
 import { signInWithGoogle } from "@/actions/auth/social-login/providers/provider";
@@ -234,7 +234,7 @@ export default function LoginPage() {
                   className="w-full"
                   size="lg"
                 >
-                  <FaApple className="mr-2 h-5 w-5" />
+                  <FaFacebook className="mr-2 h-5 w-5" />
                   Continue with Apple
                 </Button>
               </div>

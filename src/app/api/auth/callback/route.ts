@@ -47,13 +47,6 @@ export async function GET(request: Request) {
             phone: user.user_metadata.phone ?? "",
           });
 
-          await supabase.auth.updateUser({
-            data: {
-              role:
-                user.email === "kensenyocoding@gmail.com" ? "admin" : "user",
-            },
-          });
-
           if (isCorrectFormat("email", user?.user_metadata.email)) {
             const response = await sendWelcomeEmail(
               user?.user_metadata.email,
@@ -62,6 +55,13 @@ export async function GET(request: Request) {
 
             if (response) console.error(response);
           }
+          const { error: response } = await supabase.auth.updateUser({
+            data: {
+              role:
+                user.email === "kensenyocoding@gmail.com" ? "admin" : "user",
+            },
+          });
+          if (response) console.error(response);
         }
       }
 

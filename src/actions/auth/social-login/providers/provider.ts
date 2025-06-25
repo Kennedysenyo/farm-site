@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 
 import { redirect } from "next/navigation";
 
-type ProviderType = "google" | "apple";
+type ProviderType = "google" | "facebook";
 const signInWith = (provider: ProviderType) => async () => {
   const origin =
     process.env.NODE_ENV === "development"
@@ -28,3 +28,4 @@ const signInWith = (provider: ProviderType) => async () => {
 };
 
 export const signInWithGoogle = signInWith("google");
+export const signInWithFacebook = signInWith("facebook");
