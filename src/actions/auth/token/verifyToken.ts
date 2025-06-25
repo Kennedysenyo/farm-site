@@ -26,7 +26,10 @@ export const storeUserData = async (
   subscribeNewsletter: boolean,
 ) => {
   const supabase = await createClient();
-  const { data: user, error: userError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
 
   if (userError || !user) {
     throw new Error("User not authenticated");
@@ -38,6 +41,7 @@ export const storeUserData = async (
         firstName,
         lastName,
         phone,
+        role: user.email === "kensenyocoding@gmail.com" ? "admin" : "user",
       },
     });
 
@@ -48,7 +52,7 @@ export const storeUserData = async (
 
     if (!userExists) {
       await db.insert(users).values({
-        id: user.user.id,
+        id: user.id,
         firstName,
         lastName,
         email,
@@ -59,7 +63,7 @@ export const storeUserData = async (
       await db
         .update(users)
         .set({
-          id: user.user.id,
+          id: user.id,
           firstName,
           lastName,
           email,

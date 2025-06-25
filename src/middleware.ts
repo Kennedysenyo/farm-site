@@ -70,12 +70,8 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (user && pathname === "/dashboard") {
-    const dbUser = await db
-      .select({ role: users.role })
-      .from(users)
-      .where(eq(users.id, user.id));
-
-    if (!dbUser[0] || dbUser[0].role !== "admin") {
+    if (user.user_metadata.role !== "admin") {
+      console.log("this is the role", user.user_metadata.role);
       return NextResponse.redirect(new URL("/", request.url));
     }
     return supabaseResponse;
