@@ -78,7 +78,11 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (!user && (pathname === "/order" || pathname === "/dashboard")) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const redirectUrl = new URL("/login", request.url);
+    const fullPath = pathname + request.nextUrl.search;
+
+    redirectUrl.searchParams.set("redirect-to", fullPath);
+    return NextResponse.redirect(redirectUrl);
   }
 
   return supabaseResponse;
