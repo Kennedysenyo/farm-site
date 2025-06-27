@@ -34,7 +34,8 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const isOnline = useIsOnline();
-  const nextUrl = useSearchParams().get("redirect-to") ?? "";
+  const searchParams = useSearchParams();
+  const nextUrl = searchParams.get("redirect-to") || "/";
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -62,7 +63,7 @@ export default function LoginPage() {
     if (state.success) {
       setFormData({ email: "", password: "", rememberMe: false });
       showToast("success", "Logged In", "You have successfully logged in");
-      router.replace(nextUrl ?? "");
+      router.replace(nextUrl);
     }
   }, [state, router]);
 
