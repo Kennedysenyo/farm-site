@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Login } from "@/components/LoginPage";
 import { Loader } from "lucide-react";
 
-export function LoginPage() {
+export default function LoginPage() {
   return (
     <Suspense fallback={<Loader />}>
       <Login />
