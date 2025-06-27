@@ -16,7 +16,7 @@ import {
   LoginFormState,
   validateLogin,
 } from "@/actions/auth/login/loginFormValidation";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { showToast } from "@/utils/showToast";
 import { useIsOnline } from "@/hooks/useIsOnline";
@@ -34,6 +34,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const isOnline = useIsOnline();
+  const nextUrl = useSearchParams().get("redirect-to") ?? "";
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -61,7 +62,7 @@ export default function LoginPage() {
     if (state.success) {
       setFormData({ email: "", password: "", rememberMe: false });
       showToast("success", "Logged In", "You have successfully logged in");
-      router.replace(`/`);
+      router.replace(nextUrl ?? "");
     }
   }, [state, router]);
 
