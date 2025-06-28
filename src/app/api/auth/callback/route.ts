@@ -84,8 +84,19 @@ export async function GET(request: Request) {
                   ] ?? "",
                 email: user.user_metadata.email ?? "",
                 phone: user.user_metadata.phone ?? "",
+                role: email === process.env.ADMIN_EMAIL ? "admin" : "user",
               })
               .where(eq(users.email, email!));
+
+            const { error: response } = await supabase.auth.updateUser({
+              data: {
+                role:
+                  user.user_metadata.email === process.env.ADMIN_EMAIL
+                    ? "admin"
+                    : "user",
+              },
+            });
+            if (response) console.error(response);
           }
         }
       }
