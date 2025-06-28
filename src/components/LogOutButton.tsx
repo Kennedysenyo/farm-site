@@ -3,8 +3,13 @@
 import { logOut } from "@/actions/auth/log-out/logout";
 import { Button } from "./ui/button";
 import { showToast } from "@/utils/showToast";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const LogOutButton = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const handleLogOutClick = async () => {
     const errorMessage = await logOut();
     if (errorMessage) {
@@ -17,6 +22,7 @@ export const LogOutButton = () => {
       );
     } else if (!errorMessage) {
       showToast("success", "Logged Out", "You have successfully signed out.");
+      if (pathname === "/order" || pathname === "/admin") router.replace("/");
     }
   };
 

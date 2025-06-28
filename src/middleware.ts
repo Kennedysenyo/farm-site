@@ -65,7 +65,7 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  if (user && pathname === "/dashboard") {
+  if (user && pathname === "/admin") {
     if (user.user_metadata.role !== "admin") {
       console.log("this is the role", user.user_metadata.role);
       return NextResponse.redirect(new URL("/", request.url));
@@ -77,7 +77,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (!user && (pathname === "/order" || pathname === "/dashboard")) {
+  if (!user && (pathname === "/order" || pathname === "/admin")) {
     const redirectUrl = new URL("/login", request.url);
     const fullPath = pathname + request.nextUrl.search;
 
