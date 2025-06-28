@@ -27,11 +27,19 @@ export async function GET(request: Request) {
       } = await supabase.auth.getUser();
 
       if (user) {
-        const { id } = user;
-        const userExist: Users[] = await db
-          .select()
-          .from(users)
-          .where(eq(users.id, id!));
+        const {
+          id,
+          user_metadata: { email },
+        } = user;
+        let userExist: Users[] = [];
+        if (email) {
+          userExist = await db
+            .select()
+            .from(users)
+            .where(eq(users.email, email));
+        } else {
+          userExist = await db.select().from(users).where(eq(users.id, id!));
+        }
 
         if (userExist.length === 0) {
           await db.insert(users).values({
@@ -43,10 +51,7 @@ export async function GET(request: Request) {
               ] ?? "",
             email: user.user_metadata.email ?? "",
             phone: user.user_metadata.phone ?? "",
-            role:
-              user.user_metadata.email === process.env.ADMIN_EMAIL
-                ? "admin"
-                : "user",
+            role: email === process.env.ADMIN_EMAIL ? "admin" : "user",
           });
 
           if (isCorrectFormat("email", user?.user_metadata.email)) {
@@ -66,6 +71,22 @@ export async function GET(request: Request) {
             },
           });
           if (response) console.error(response);
+        } else {
+          if (email) {
+            await db
+              .update(users)
+              .set({
+                id,
+                firstName: user.user_metadata.name.split(" ")[0] ?? "",
+                lastName:
+                  user.user_metadata.name.split(" ")[
+                    user.user_metadata.name.split(" ").length - 1
+                  ] ?? "",
+                email: user.user_metadata.email ?? "",
+                phone: user.user_metadata.phone ?? "",
+              })
+              .where(eq(users.email, email!));
+          }
         }
       }
 
