@@ -41,7 +41,7 @@ export const storeUserData = async (
         firstName,
         lastName,
         phone,
-        role: user.email === "kensenyocoding@gmail.com" ? "admin" : "user",
+        role: user.email === process.env.ADMIN_EMAIL ? "admin" : "user",
       },
     });
 
@@ -50,7 +50,7 @@ export const storeUserData = async (
       .from(users)
       .where(eq(users.email, email));
 
-    if (!userExists) {
+    if (userExists.length === 0) {
       await db.insert(users).values({
         id: user.id,
         firstName,
@@ -58,6 +58,7 @@ export const storeUserData = async (
         email,
         phone,
         subscribeNewsletter,
+        role: email === process.env.ADMIN_EMAIL ? "admin" : "user",
       });
     } else if (userExists) {
       await db
@@ -69,6 +70,7 @@ export const storeUserData = async (
           email,
           phone,
           subscribeNewsletter,
+          role: email === process.env.ADMIN_EMAIL ? "admin" : "user",
         })
         .where(eq(users.email, email));
     }
