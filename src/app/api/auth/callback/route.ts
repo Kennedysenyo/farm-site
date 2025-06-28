@@ -43,7 +43,10 @@ export async function GET(request: Request) {
               ] ?? "",
             email: user.user_metadata.email ?? "",
             phone: user.user_metadata.phone ?? "",
-            role: user.email === process.env.ADMIN_EMAIL ? "admin" : "user",
+            role:
+              user.user_metadata.email === process.env.ADMIN_EMAIL
+                ? "admin"
+                : "user",
           });
 
           if (isCorrectFormat("email", user?.user_metadata.email)) {
@@ -56,7 +59,10 @@ export async function GET(request: Request) {
           }
           const { error: response } = await supabase.auth.updateUser({
             data: {
-              role: user.email === process.env.ADMIN_EMAIL ? "admin" : "user",
+              role:
+                user.user_metadata.email === process.env.ADMIN_EMAIL
+                  ? "admin"
+                  : "user",
             },
           });
           if (response) console.error(response);
