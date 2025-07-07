@@ -19,18 +19,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useMobile } from "@/hooks/useMobile";
+import { ProductsType } from "@/db/schema";
 
 // Mock ProductsType - replace with your actual type
-type ProductsType = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  rating?: number;
-  inStock?: boolean;
-  image?: string;
-};
 
 const categories = [
   { name: "All", value: "", icon: Grid3X3, color: "bg-slate-500" },
@@ -81,10 +72,8 @@ export default function ProductsPage() {
         setProducts(mockProducts);
       } catch (error) {
         if (error instanceof Error) {
-          console.error("Error fetching products:", error.message);
           setError(error.message);
         } else {
-          console.error("Unknown error", error);
           setError("An unknown error occurred.");
         }
       } finally {
@@ -142,17 +131,7 @@ export default function ProductsPage() {
               Out of Stock
             </Badge>
           )}
-          {/* {product.rating && product.rating >= 4.5 && (
-            <Badge className="bg-yellow-500 text-xs text-white">
-              ⭐ Bestseller
-            </Badge>
-          )} */}
         </div>
-        {/* <div className="absolute top-3 right-3">
-          <div className="rounded-full bg-white/90 p-2 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
-            <ShoppingCart className="text-primary h-4 w-4" />
-          </div>
-        </div> */}
       </div>
 
       <CardContent className="p-6">
@@ -165,16 +144,6 @@ export default function ProductsPage() {
               {product.description}
             </p>
           </div>
-
-          {/* {product.rating && (
-            <div className="flex items-center gap-1">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <span className="text-sm font-medium">{product.rating}</span>
-              <span className="text-muted-foreground text-xs">
-                (24 reviews)
-              </span>
-            </div>
-          )} */}
 
           <div className="flex items-center justify-between pt-2">
             <div>
@@ -340,8 +309,6 @@ export default function ProductsPage() {
               )}
             </div>
           </div>
-
-          {/* Results Summary */}
         </div>
       </section>
       {/* Products Section */}

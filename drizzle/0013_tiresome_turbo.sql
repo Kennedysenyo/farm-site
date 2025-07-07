@@ -1,0 +1,1 @@
+ALTER TABLE "newsletters" ALTER COLUMN "status" SET DEFAULT 'draft';

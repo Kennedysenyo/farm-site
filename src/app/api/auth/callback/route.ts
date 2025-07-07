@@ -90,10 +90,7 @@ export async function GET(request: Request) {
 
             const { error: response } = await supabase.auth.updateUser({
               data: {
-                role:
-                  user.user_metadata.email === process.env.ADMIN_EMAIL
-                    ? "admin"
-                    : "user",
+                role: email === process.env.ADMIN_EMAIL ? "admin" : "user",
               },
             });
             if (response) console.error(response);
