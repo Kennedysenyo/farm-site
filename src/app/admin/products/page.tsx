@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -236,6 +235,8 @@ export default function AdminProductsPage() {
                 <Loader className="text-primary h-12 w-12 animate-spin" />
                 <p className="text-muted-foreground">Loading products...</p>
               </div>
+            ) : error ? (
+              <h2 className="text-destructive text-center text-2xl">{error}</h2>
             ) : (
               <Table>
                 <TableHeader>

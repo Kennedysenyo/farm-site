@@ -10,7 +10,6 @@ import {
   varchar,
   jsonb,
   integer,
-  PgUUID,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {

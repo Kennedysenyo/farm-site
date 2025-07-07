@@ -35,7 +35,6 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Plus,
   Search,
   MoreHorizontal,
   Edit,
@@ -45,6 +44,7 @@ import {
   Users,
   Mail,
   TrendingUp,
+  Loader,
 } from "lucide-react";
 import { NewslettersType, NewsletterSubscribersType } from "@/db/schema";
 
@@ -55,6 +55,7 @@ export default function AdminNewsletterPage() {
   );
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
+  const [fetchSubsError, setSubsFetchError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [newNewsletter, setNewNewsletter] = useState({
@@ -73,7 +74,7 @@ export default function AdminNewsletterPage() {
         });
         const data = await respose.json();
         if (!data) throw new Error("Failed Fetching Data, Try Again!");
-        setNewNewsletter(data);
+        setNewsletters(data);
       } catch (error) {
         if (error instanceof Error) {
           setFetchError(error.message);
@@ -103,7 +104,7 @@ export default function AdminNewsletterPage() {
         if (error instanceof Error) {
           setFetchError(error.message);
         } else {
-          setFetchError(error as string);
+          setSubsFetchError(error as string);
         }
       } finally {
         setLoading(false);
@@ -311,63 +312,80 @@ export default function AdminNewsletterPage() {
                 </Select>
               </div>
 
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Subject</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Sent Date</TableHead>
-                    <TableHead>Recipients</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredNewsletters.map((newsletter) => (
-                    <TableRow key={newsletter.id}>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">{newsletter.title}</div>
-                          <div className="text-muted-foreground line-clamp-1 text-sm">
-                            {newsletter.content}
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>{getStatusBadge(newsletter.status)}</TableCell>
-                      <TableCell>
-                        {newsletter.sentDate ? (
-                          new Date(newsletter.sentDate).toLocaleDateString()
-                        ) : (
-                          <span className="text-muted-foreground">-</span>
-                        )}
-                      </TableCell>
-
-                      <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <Eye className="mr-2 h-4 w-4" />
-                              View
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <Edit className="mr-2 h-4 w-4" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-600">
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
+              {loading ? (
+                <div className="flex h-64 flex-col items-center justify-center space-y-4">
+                  <Loader className="text-primary h-12 w-12 animate-spin" />
+                  <p className="text-muted-foreground">
+                    Loading newsletters...
+                  </p>
+                </div>
+              ) : fetchError ? (
+                <h2 className="text-destructive text-center text-2xl">
+                  {fetchError}
+                </h2>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Subject</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Sent Date</TableHead>
+                      <TableHead>Recipients</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredNewsletters.map((newsletter) => (
+                      <TableRow key={newsletter.id}>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">
+                              {newsletter.title}
+                            </div>
+                            <div className="text-muted-foreground line-clamp-1 text-sm">
+                              {newsletter.content}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {getStatusBadge(newsletter.status)}
+                        </TableCell>
+                        <TableCell>
+                          {newsletter.sentDate ? (
+                            new Date(newsletter.sentDate).toLocaleDateString()
+                          ) : (
+                            <span className="text-muted-foreground">-</span>
+                          )}
+                        </TableCell>
+
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem>
+                                <Eye className="mr-2 h-4 w-4" />
+                                View
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="text-red-600">
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -394,50 +412,63 @@ export default function AdminNewsletterPage() {
                 </div>
               </div>
 
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Subscriber</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Subscribed Date</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {subscribers.map((subscriber) => (
-                    <TableRow key={subscriber.id}>
-                      <TableCell>{subscriber.email}</TableCell>
-
-                      <TableCell>
-                        {new Date(subscriber.createdAt).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <Eye className="mr-2 h-4 w-4" />
-                              View Profile
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <Edit className="mr-2 h-4 w-4" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-600">
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Remove
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
+              {loading ? (
+                <div className="flex h-64 flex-col items-center justify-center space-y-4">
+                  <Loader className="text-primary h-12 w-12 animate-spin" />
+                  <p className="text-muted-foreground">
+                    Loading subscribers...
+                  </p>
+                </div>
+              ) : fetchSubsError ? (
+                <h2 className="text-destructive text-center text-2xl">
+                  {fetchSubsError}
+                </h2>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Subscriber</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Subscribed Date</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {subscribers.map((subscriber) => (
+                      <TableRow key={subscriber.id}>
+                        <TableCell>{subscriber.email}</TableCell>
+
+                        <TableCell>
+                          {new Date(subscriber.createdAt).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem>
+                                <Eye className="mr-2 h-4 w-4" />
+                                View Profile
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="text-red-600">
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Remove
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

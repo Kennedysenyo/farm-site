@@ -14,8 +14,6 @@ import {
   Package,
   MapPin,
   Calendar,
-  TrendingUp,
-  TrendingDown,
   DollarSign,
   Eye,
 } from "lucide-react";

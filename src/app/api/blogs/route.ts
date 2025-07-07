@@ -1,8 +1,8 @@
 import { db } from "@/db";
 import { blogs } from "@/db/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const GET = async (request: NextRequest) => {
+export const GET = async () => {
   try {
     const data = await db.select().from(blogs);
     if (!data)
